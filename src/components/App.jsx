@@ -1,15 +1,18 @@
 import React from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Chat from './Chat.jsx';
+import Error404 from './Error404.jsx';
+import LoginForm from './LoginForm.jsx';
 
 const App = () => (
   <div className="container-lg h-100 p-3">
-    <div className="h-100" id="chat">
-      <div className="card text-center">
-        <div className="card-body">
-          <h5 className="card-title">Project frontend l4 boilerplate</h5>
-          <p className="card-text">It works!</p>
-        </div>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" exact render={() => <Chat />} />
+        <Route path="/login" exact render={() => <LoginForm />} />
+        <Route path="*" exact render={() => <Error404 />} />
+      </Switch>
+    </BrowserRouter>
   </div>
 );
 
