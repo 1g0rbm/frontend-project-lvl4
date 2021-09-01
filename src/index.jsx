@@ -12,6 +12,9 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-ReactDOM.render(<App />, document.getElementById('chat'));
+ReactDOM.render(
+  <App />,
+  document.getElementById('chat'),
+);
 
 console.log('it works!');
