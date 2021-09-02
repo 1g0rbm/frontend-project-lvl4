@@ -1,24 +1,31 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Field, Form as FormikForm, Formik } from 'formik';
 import cn from 'classnames';
 import { FloatingLabel } from 'react-bootstrap';
 import Alert from 'react-bootstrap/Alert';
 import Form from 'react-bootstrap/Form';
+import { useHistory, useLocation } from 'react-router-dom';
 import validators from '../validators.js';
 import useHttp from '../hooks/useHttp.js';
 import routes from '../routes.js';
+import AuthContext from '../context/authContext.jsx';
 
 const LoginForm = () => {
   const { request, clearHttpError, httpError } = useHttp();
+  const auth = useContext(AuthContext);
+  const history = useHistory();
+  const location = useLocation();
+  const { from } = location.state || { from: { pathname: '/' } };
 
-  const loginhandler = async (username, password) => {
+  const loginHandler = async (username, password) => {
     const data = await request(
       routes.loginPath(),
       'POST',
       { username, password },
     );
 
-    console.log('RESPONSE: ', data);
+    auth.login(data.token, data.username);
+    history.replace(from);
   };
 
   return (
@@ -35,7 +42,7 @@ const LoginForm = () => {
               onSubmit={({ username, password }, bag) => {
                 clearHttpError();
                 bag.setSubmitting(false);
-                loginhandler(username, password);
+                loginHandler(username, password);
               }}
             >
               {({

@@ -1,8 +1,9 @@
-import React, {
-  createContext,
-  useState,
-  useContext,
-} from 'react';
+import { noop } from 'jquery';
+import { createContext } from 'react';
 
-const authContext = createContext();
-
+export default createContext({
+  token: null,
+  username: null,
+  login: noop,
+  isAuth: false,
+});
