@@ -1,9 +1,12 @@
 import React, { useContext, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setInitialState } from '../slices/channelsDataSlice.js';
 import authContext from '../context/authContext.jsx';
 import useHttp from '../hooks/useHttp.js';
 
 const Chat = () => {
   const auth = useContext(authContext);
+  const dispatch = useDispatch();
   const { request } = useHttp();
 
   useEffect(async () => {
@@ -16,8 +19,12 @@ const Chat = () => {
       },
     );
 
-    console.log('DATA: ', data);
-  }, [request, auth]);
+    dispatch(setInitialState(data));
+  }, [request, dispatch, setInitialState, auth]);
+
+  const channels = useSelector(({ channelsData }) => channelsData);
+
+  console.log('DATA: ', channels);
 
   return (
     <h2>Chat</h2>
