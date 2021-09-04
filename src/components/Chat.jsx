@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setInitialState } from '../slices/channelsDataSlice.js';
 import authContext from '../context/authContext.jsx';
 import useHttp from '../hooks/useHttp.js';
+import Sidebar from './Sidebar.jsx';
 
 const Chat = () => {
   const auth = useContext(authContext);
@@ -22,12 +23,14 @@ const Chat = () => {
     dispatch(setInitialState(data));
   }, [request, dispatch, setInitialState, auth]);
 
-  const channels = useSelector(({ channelsData }) => channelsData);
+  const messages = useSelector(({ messagesData }) => messagesData);
 
-  console.log('DATA: ', channels);
+  console.log('CHANNELS: ', messages);
 
   return (
-    <h2>Chat</h2>
+    <div className="container h-100 my-4 overflow-hidden rounded shadow">
+      <Sidebar />
+    </div>
   );
 };
 

@@ -9,6 +9,7 @@ import Error404 from './Error404.jsx';
 import LoginForm from './LoginForm.jsx';
 import PrivateRoute from './PrivateRoute.jsx';
 import channelsDataReducer from '../slices/channelsDataSlice.js';
+import messagesDataReducer from '../slices/messagesDataSlice.js';
 
 const App = () => {
   const { login, token, username } = useAuth();
@@ -17,6 +18,7 @@ const App = () => {
   const store = configureStore({
     reducer: {
       channelsData: channelsDataReducer,
+      messagesData: messagesDataReducer,
     },
   });
 
