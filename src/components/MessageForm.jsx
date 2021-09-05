@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Field, Form as FormikForm, Formik } from 'formik';
 import Form from 'react-bootstrap/Form';
+import { useSelector } from 'react-redux';
+import SocketContext from '../context/socketContext.jsx';
+import AuthContext from '../context/authContext.jsx';
 
 export default () => {
+  const { socket } = useContext(SocketContext);
+  const { currentChannelId } = useSelector(({ channelsData }) => channelsData);
+  const { username } = useContext(AuthContext);
+
   const handleSubmit = ({ text }, bag) => {
     bag.setSubmitting(false);
-    console.log('TEXT: ', text);
+    socket.emit(
+      'newMessage',
+      { author: username, channelId: currentChannelId, text },
+      (response) => {
+        console.log('RESPONSE: ', response);
+      },
+    );
   };
 
   return (
