@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import MessageForm from './MessageForm.jsx';
+import { selectActiveChannelMessages } from '../slices/messagesDataSlice.js';
 
 const Title = ({ channel, messagesCount }) => {
   if (!channel) {
@@ -25,18 +26,19 @@ const Title = ({ channel, messagesCount }) => {
 
 const Message = ({ message }) => (
   <div className="text-break mb-2">
-    {message.text}
+    <span><b>{`${message.author}: `}</b></span>
+    <span>{message.text}</span>
   </div>
 );
 
 const MessagesBox = ({ messages }) => (
   <div className="chat-messages overflow-auto px-5">
-    {messages.map((message) => <Message message={message} />)}
+    {messages.map((message) => <Message key={message.id} message={message} />)}
   </div>
 );
 
 export default () => {
-  const { messages } = useSelector(({ messagesData }) => messagesData);
+  const messages = useSelector(selectActiveChannelMessages);
   const { channels, currentChannelId } = useSelector(({ channelsData }) => channelsData);
   const currentChannel = _.find(channels, { id: currentChannelId });
 
