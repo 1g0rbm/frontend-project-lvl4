@@ -1,6 +1,9 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import { Field, Form as FormikForm, Formik } from 'formik';
+import React, {
+  useContext, useEffect, useRef, useState,
+} from 'react';
+import { Form as FormikForm, Formik } from 'formik';
 import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
 import { useSelector } from 'react-redux';
 import AuthContext from '../context/authContext.jsx';
 import useSocket from '../hooks/useSocket.js';
@@ -10,21 +13,22 @@ export default () => {
   const { username } = useContext(AuthContext);
   const { emit } = useSocket();
   const inputRef = useRef(null);
+  const [error, setError] = useState(null);
 
-  const handleSubmit = ({ text }, bag) => {
-    bag.setSubmitting(true);
+  const handleSubmit = ({ text }, { setSubmitting, resetForm }) => {
+    setSubmitting(true);
     emit(
       'newMessage',
       { author: username, channelId: currentChannelId, text },
       () => {
-        bag.setSubmitting(false);
-        bag.resetForm();
+        setSubmitting(false);
+        resetForm();
         inputRef.current?.focus();
       },
       () => {
-        bag.setSubmitting(false);
-        bag.resetForm();
+        setSubmitting(false);
         inputRef.current?.focus();
+        setError('Network error');
       },
     );
   };
@@ -41,6 +45,9 @@ export default () => {
       >
         {({ isSubmitting, values, handleChange }) => (
           <FormikForm className="py-1 border rounded-2">
+            <Form.Group>
+              {error && <Alert variant="danger">{error}</Alert>}
+            </Form.Group>
             <Form.Group className="input-group has-validation">
               <Form.Control
                 onChange={handleChange}
@@ -50,12 +57,13 @@ export default () => {
                 value={values.text}
                 className="border-0 p-0 ps-2 form-control"
                 ref={inputRef}
+                disabled={isSubmitting || !!error}
               />
               <div className="input-group-append">
                 <button
                   type="submit"
                   className="btn btn-outline-primary btn-group-vertical"
-                  disabled={isSubmitting || !values.text}
+                  disabled={isSubmitting || !values.text || !!error}
                 >
                   Send
                 </button>

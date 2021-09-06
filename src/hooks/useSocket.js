@@ -6,7 +6,7 @@ export default () => {
 
   const emit = (channel, message, resolve = () => {}, reject = () => {}) => {
     socket.emit(
-      'newMessage',
+      channel,
       message,
       (response) => {
         if (response.status === 'ok') {
