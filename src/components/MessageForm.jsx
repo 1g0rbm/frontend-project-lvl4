@@ -44,7 +44,7 @@ export default () => {
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, values, handleChange }) => (
-          <FormikForm className="py-1 border rounded-2">
+          <FormikForm className="py-1 rounded-2">
             <Form.Group>
               {error && <Alert variant="danger">{error}</Alert>}
             </Form.Group>
@@ -55,19 +55,17 @@ export default () => {
                 name="text"
                 placeholder="text"
                 value={values.text}
-                className="border-0 p-0 ps-2 form-control"
+                className="p-0 ps-2 form-control"
                 ref={inputRef}
                 disabled={isSubmitting || !!error}
               />
-              <div className="input-group-append">
-                <button
-                  type="submit"
-                  className="btn btn-outline-primary btn-group-vertical"
-                  disabled={isSubmitting || !values.text || !!error}
-                >
-                  Send
-                </button>
-              </div>
+              <button
+                type="submit"
+                className="btn btn-outline-primary btn-group-vertical"
+                disabled={isSubmitting || !values.text || !!error}
+              >
+                Send
+              </button>
             </Form.Group>
           </FormikForm>
         )}

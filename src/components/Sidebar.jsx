@@ -11,6 +11,7 @@ const ChannelItem = ({ changeChannel, channel, isCurrent }) => (
       'w-100',
       'rounded-0',
       'text-start',
+      'text-truncate',
       'btn',
       {
         'btn-secondary': isCurrent,

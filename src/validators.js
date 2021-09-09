@@ -9,6 +9,8 @@ export default {
     yup.object({
       name: yup.string()
         .trim()
+        .min(3)
+        .max(20)
         .required()
         .notOneOf(existedChannels)
         .matches(/^[a-z0-9-_]+$/),
