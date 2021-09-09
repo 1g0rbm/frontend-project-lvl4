@@ -11,6 +11,7 @@ import LoginForm from './LoginForm.jsx';
 import PrivateRoute from './PrivateRoute.jsx';
 import channelsDataReducer from '../slices/channelsDataSlice.js';
 import messagesDataReducer from '../slices/messagesDataSlice.js';
+import modalDataReducer from '../slices/modalDataSlice.js';
 import initSocket from '../sockets.js';
 
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
     reducer: {
       channelsData: channelsDataReducer,
       messagesData: messagesDataReducer,
+      modalData: modalDataReducer,
     },
   });
 

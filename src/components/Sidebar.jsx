@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
 import { setCurrentChannelId } from '../slices/channelsDataSlice.js';
+import { showAddChannel } from '../slices/modalDataSlice.js';
 
 const ChannelItem = ({ changeChannel, channel, isCurrent }) => (
   <button
@@ -44,10 +45,21 @@ export default () => {
     dispatch(setCurrentChannelId(channelId));
   };
 
+  const showAddChannelForm = () => {
+    dispatch(showAddChannel());
+  };
+
   return (
     <div className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
-      <div className="d-flex justify-content-between mb-2 ps-4 pe-2 border-bottom">
-        <span>Channels</span>
+      <div className="d-flex justify-content-between mb-2 ps-2 pe-2">
+        <div className="bg-light p-2">Channels</div>
+        <button
+          className="btn btn-outline-primary"
+          type="button"
+          onClick={showAddChannelForm}
+        >
+          +
+        </button>
       </div>
       {channels && (
       <Channels

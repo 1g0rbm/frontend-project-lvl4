@@ -1,15 +1,18 @@
 import React, { useContext, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setInitialState } from '../slices/channelsDataSlice.js';
 import authContext from '../context/authContext.jsx';
 import useHttp from '../hooks/useHttp.js';
 import Sidebar from './Sidebar.jsx';
 import Messages from './Messages.jsx';
+import Modal from './modal/Modal.jsx';
 
 const Chat = () => {
   const auth = useContext(authContext);
   const dispatch = useDispatch();
   const { request } = useHttp();
+
+  const { type } = useSelector(({ modalData }) => modalData);
 
   useEffect(async () => {
     const data = await request(
@@ -30,6 +33,7 @@ const Chat = () => {
         <Sidebar />
         <Messages />
       </div>
+      {type && <Modal type={type} />}
     </div>
   );
 };
