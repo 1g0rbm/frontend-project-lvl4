@@ -1,28 +1,41 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import cn from 'classnames';
+import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { setCurrentChannelId } from '../slices/channelsDataSlice.js';
 import { showAddChannel } from '../slices/modalDataSlice.js';
 
-const ChannelItem = ({ changeChannel, channel, isCurrent }) => (
-  <button
-    type="button"
-    className={cn(
-      'w-100',
-      'rounded-0',
-      'text-start',
-      'text-truncate',
-      'btn',
-      {
-        'btn-secondary': isCurrent,
-      },
-    )}
-    onClick={() => changeChannel(channel.id)}
-  >
-    <span className="me-1">#</span>
-    { channel.name }
-  </button>
-);
+const ChannelItem = ({ changeChannel, channel, isCurrent }) => {
+  if (!channel.removable) {
+    return (
+      <Button
+        variant={isCurrent ? 'secondary' : 'light'}
+        className="w-100 rounded-0 text-start text-truncate text-truncate btn shadow-none"
+        onClick={() => changeChannel(channel.id)}
+      >
+        <span className="me-1">#</span>
+        { channel.name }
+      </Button>
+    );
+  }
+
+  return (
+    <Dropdown role="group" className="d-flex" as={ButtonGroup}>
+      <Button
+        variant={isCurrent ? 'secondary' : 'light'}
+        className="w-100 rounded-0 text-start text-truncate text-truncate btn shadow-none"
+        onClick={() => changeChannel(channel.id)}
+      >
+        <span className="me-1">#</span>
+        { channel.name }
+      </Button>
+      <Dropdown.Toggle className="shadow-none" split variant={isCurrent ? 'secondary' : 'light'} />
+      <Dropdown.Menu>
+        <Dropdown.Item>Delete</Dropdown.Item>
+        <Dropdown.Item>Rename</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+  );
+};
 
 const Channels = ({ changeChannel, currentChannelId, children }) => (
   <ul className="nav flex-column nav-pills nav-fill px-2">
