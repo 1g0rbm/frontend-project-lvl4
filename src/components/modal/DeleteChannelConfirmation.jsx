@@ -15,7 +15,7 @@ export default ({ hide, data }) => {
   return (
     <>
       <Modal.Header>
-        <h3>Delete</h3>
+        <h3>Delete channel</h3>
       </Modal.Header>
       <Modal.Body>
         <Formik

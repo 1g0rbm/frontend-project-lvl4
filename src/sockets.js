@@ -1,5 +1,7 @@
 import { io } from 'socket.io-client';
-import { newChannel, removeChannel, setCurrentChannelId } from './slices/channelsDataSlice.js';
+import {
+  newChannel, removeChannel, renameChannel, setCurrentChannelId,
+} from './slices/channelsDataSlice.js';
 import { newMessage } from './slices/messagesDataSlice.js';
 import useAuth from './hooks/useAuth.js';
 
@@ -26,6 +28,12 @@ export default (store) => {
     'removeChannel',
     (message) => {
       store.dispatch(removeChannel(message));
+    },
+  );
+  socket.on(
+    'renameChannel',
+    (message) => {
+      store.dispatch(renameChannel({ channel: message }));
     },
   );
 
