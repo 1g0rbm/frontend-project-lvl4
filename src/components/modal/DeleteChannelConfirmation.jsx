@@ -41,7 +41,7 @@ export default ({ hide, data }) => {
               <Form.Group>
                 {formError && <Alert variant="danger">{formError}</Alert>}
               </Form.Group>
-              <p>Are you sure you want to delete channel?</p>
+              <p>{`Are you sure you want to delete channel "${data.channel.name}"?`}</p>
               <Form.Group className="d-flex justify-content-end">
                 <Button className="me-2" onClick={hide} variant="secondary">Cancel</Button>
                 <Button
