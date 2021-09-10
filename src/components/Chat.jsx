@@ -12,10 +12,10 @@ const Chat = () => {
   const dispatch = useDispatch();
   const { request } = useHttp();
 
-  const { type } = useSelector(({ modalData }) => modalData);
+  const { type, data } = useSelector(({ modalData }) => modalData);
 
   useEffect(async () => {
-    const data = await request(
+    const initialData = await request(
       '/api/v1/data',
       'GET',
       null,
@@ -24,7 +24,7 @@ const Chat = () => {
       },
     );
 
-    dispatch(setInitialState(data));
+    dispatch(setInitialState(initialData));
   }, [request, dispatch, setInitialState, auth]);
 
   return (
@@ -33,7 +33,7 @@ const Chat = () => {
         <Sidebar />
         <Messages />
       </div>
-      {type && <Modal type={type} />}
+      {type && <Modal type={type} data={data} />}
     </div>
   );
 };

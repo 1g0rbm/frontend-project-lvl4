@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { setCurrentChannelId } from '../slices/channelsDataSlice.js';
-import { showAddChannel } from '../slices/modalDataSlice.js';
+import { showAddChannel, showDeleteChannelConfirmation } from '../slices/modalDataSlice.js';
 
 const ChannelItem = ({ changeChannel, channel, isCurrent }) => {
   if (!channel.removable) {
@@ -18,6 +18,12 @@ const ChannelItem = ({ changeChannel, channel, isCurrent }) => {
     );
   }
 
+  const dispatch = useDispatch();
+  const onShowDeleteChannelConfirmation = (e) => {
+    e.preventDefault();
+    dispatch(showDeleteChannelConfirmation({ channel }));
+  };
+
   return (
     <Dropdown role="group" className="d-flex" as={ButtonGroup}>
       <Button
@@ -30,7 +36,7 @@ const ChannelItem = ({ changeChannel, channel, isCurrent }) => {
       </Button>
       <Dropdown.Toggle className="shadow-none" split variant={isCurrent ? 'secondary' : 'light'} />
       <Dropdown.Menu>
-        <Dropdown.Item>Delete</Dropdown.Item>
+        <Dropdown.Item onClick={onShowDeleteChannelConfirmation}>Delete</Dropdown.Item>
         <Dropdown.Item>Rename</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>

@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   state: 'hide',
   type: null,
+  data: null,
 };
 
 const modalData = createSlice({
@@ -14,12 +15,18 @@ const modalData = createSlice({
       state.state = 'show';
       state.type = 'addChannel';
     },
+    showDeleteChannelConfirmation: (state, { payload: { channel } }) => {
+      state.state = 'show';
+      state.type = 'deleteChannelConfirmation';
+      state.data = { channel };
+    },
     hide: () => initialState,
   },
 });
 
 export const {
   showAddChannel,
+  showDeleteChannelConfirmation,
   hide,
 } = modalData.actions;
 

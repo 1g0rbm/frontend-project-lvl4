@@ -3,13 +3,15 @@ import { Modal } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { hide } from '../../slices/modalDataSlice.js';
 import AddChannel from './AddChannel.jsx';
+import DeleteChannelConfirmation from './DeleteChannelConfirmation.jsx';
 
-export default ({ type }) => {
+export default ({ type, data }) => {
   const dispatch = useDispatch();
   const onHide = () => dispatch(hide());
 
   const modals = {
     addChannel: <AddChannel hide={onHide} />,
+    deleteChannelConfirmation: <DeleteChannelConfirmation data={data} hide={onHide} />,
   };
 
   return (
