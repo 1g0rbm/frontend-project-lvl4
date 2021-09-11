@@ -13,9 +13,12 @@ import channelsDataReducer from '../slices/channelsDataSlice.js';
 import messagesDataReducer from '../slices/messagesDataSlice.js';
 import modalDataReducer from '../slices/modalDataSlice.js';
 import initSocket from '../sockets.js';
+import Navbar from './Navbar.jsx';
 
 const App = () => {
-  const { login, token, username } = useAuth();
+  const {
+    login, logout, token, username,
+  } = useAuth();
   const isAuth = !!token;
 
   const store = configureStore({
@@ -28,16 +31,17 @@ const App = () => {
 
   return (
     <AuthContext.Provider value={{
-      login, token, username, isAuth,
+      login, logout, token, username, isAuth,
     }}
     >
       <SocketContext.Provider value={{ socket: initSocket(store) }}>
         <ReduxProvider store={store}>
           <BrowserRouter>
-            <div className="container-lg h-100 p-3">
+            <div className="d-flex flex-column h-100">
+              <Navbar />
               <Switch>
                 <PrivateRoute isAuth={isAuth} path="/" exact>
-                  <Chat />
+                  <Chat fluid className="d-flex flex-column vh-100" />
                 </PrivateRoute>
                 <Route path="/login" exact render={() => <LoginForm />} />
                 <Route path="*" exact render={() => <Error404 />} />

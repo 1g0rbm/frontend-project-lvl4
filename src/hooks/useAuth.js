@@ -11,9 +11,16 @@ export default () => {
   const login = useCallback((newToken, newUsername) => {
     setToken(newToken);
     setUsername(newUsername);
-
     localStorage.setItem(storageKey, JSON.stringify({ token: newToken, username: newUsername }));
   }, []);
 
-  return { login, token, username };
+  const logout = useCallback(() => {
+    setToken(null);
+    setUsername(null);
+    localStorage.removeItem(storageKey);
+  }, []);
+
+  return {
+    login, logout, token, username,
+  };
 };
