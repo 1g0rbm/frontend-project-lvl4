@@ -1,18 +1,36 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   Formik, Form as FormikForm, Field,
 } from 'formik';
-import { Button, FloatingLabel, Form } from 'react-bootstrap';
+import {
+  Alert, Button, FloatingLabel, Form,
+} from 'react-bootstrap';
 import cn from 'classnames';
 import validators from '../validators';
+import useHttp from '../hooks/useHttp';
+import routes from '../routes';
+import AuthContext from '../context/authContext.jsx';
 
 export default () => {
+  const { request, clearHttpError, httpError } = useHttp();
+  const auth = useContext(AuthContext);
   const history = useHistory();
 
   const loginUpHandler = (e) => {
     e.preventDefault();
     history.push('/login');
+  };
+
+  const signupHandler = async (username, password) => {
+    const data = await request(
+      routes.signupPath(),
+      'POST',
+      { username, password },
+    );
+
+    auth.login(data.token, data.username);
+    history.replace('/');
   };
 
   return (
@@ -26,14 +44,19 @@ export default () => {
             <Formik
               initialValues={{ username: '', password: '', passwordConfirmation: '' }}
               validationSchema={validators.signupForm}
-              onSubmit={(values) => {
-                console.log('SUBMITED_VALUES: ', values);
+              onSubmit={({ username, password }, { setSubmitting }) => {
+                setSubmitting(false);
+                clearHttpError();
+                signupHandler(username, password);
               }}
             >
-              {({ values, touched, errors }) => (
+              {({
+                isSubmitting, values, touched, errors,
+              }) => (
                 <FormikForm>
-                  {console.log('VALUES: ', values)}
-                  {console.log('ERRORS: ', errors)}
+                  <Form.Group>
+                    {httpError && <Alert variant="danger">{httpError}</Alert>}
+                  </Form.Group>
                   <Form.Group className="mb-3">
                     <FloatingLabel label="username">
                       <Field
@@ -87,7 +110,14 @@ export default () => {
                       </div>
                     </FloatingLabel>
                   </Form.Group>
-                  <Button variant="light" className="w-100 mb-3 btn btn-lg btn-outline-primary">Signup</Button>
+                  <Button
+                    type="submit"
+                    variant="light"
+                    className="w-100 mb-3 btn btn-lg btn-outline-primary"
+                    disabled={isSubmitting}
+                  >
+                    Signup
+                  </Button>
                 </FormikForm>
               )}
             </Formik>
