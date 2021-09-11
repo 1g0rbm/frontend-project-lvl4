@@ -14,6 +14,7 @@ import messagesDataReducer from '../slices/messagesDataSlice.js';
 import modalDataReducer from '../slices/modalDataSlice.js';
 import initSocket from '../sockets.js';
 import Navbar from './Navbar.jsx';
+import SignUpForm from './SignUpForm.jsx';
 
 const App = () => {
   const {
@@ -44,6 +45,7 @@ const App = () => {
                   <Chat fluid className="d-flex flex-column vh-100" />
                 </PrivateRoute>
                 <Route path="/login" exact render={() => <LoginForm />} />
+                <Route path="/signup" exact render={() => <SignUpForm />} />
                 <Route path="*" exact render={() => <Error404 />} />
               </Switch>
             </div>

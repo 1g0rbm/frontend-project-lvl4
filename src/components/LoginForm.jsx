@@ -17,6 +17,11 @@ const LoginForm = () => {
   const location = useLocation();
   const { from } = location.state || { from: { pathname: '/' } };
 
+  const signUpHandler = (e) => {
+    e.preventDefault();
+    history.replace('/signup');
+  };
+
   const loginHandler = async (username, password) => {
     const data = await request(
       routes.loginPath(),
@@ -84,13 +89,20 @@ const LoginForm = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-100 mb-3 btn btn-outline-primary"
+                    className="w-100 mb-3 btn btn-lg btn-outline-primary"
                   >
                     Submit
                   </button>
                 </FormikForm>
               )}
             </Formik>
+          </div>
+          <div className="card-footer">
+            <div className="text-center">
+              <span>Still not registered?</span>
+              {' '}
+              <a href="/signup" onClick={signUpHandler}>Signup</a>
+            </div>
           </div>
         </div>
       </div>
