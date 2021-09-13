@@ -5,6 +5,7 @@ import 'regenerator-runtime/runtime.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App.jsx';
+import './i18n.js';
 
 import '../assets/application.scss';
 

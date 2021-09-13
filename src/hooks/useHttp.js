@@ -3,6 +3,7 @@ import axios from 'axios';
 
 export default () => {
   const [httpError, setHttpError] = useState(null);
+  const [responseCode, setResponseCode] = useState();
 
   const request = useCallback(async (url, method = 'GET', data = null, headers = {}) => {
     try {
@@ -13,8 +14,11 @@ export default () => {
         data,
       });
 
+      setResponseCode(response.status);
+
       return response.data;
     } catch (e) {
+      setResponseCode(e.response.status);
       setHttpError(e.message);
       throw e;
     }
@@ -22,5 +26,7 @@ export default () => {
 
   const clearHttpError = () => setHttpError(null);
 
-  return { request, clearHttpError, httpError };
+  return {
+    request, clearHttpError, responseCode, httpError,
+  };
 };
