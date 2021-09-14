@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { setCurrentChannelId } from '../slices/channelsDataSlice.js';
 import { showAddChannel, showDeleteChannelConfirmation, showRenameChanel } from '../slices/modalDataSlice.js';
 
@@ -18,6 +19,7 @@ const ChannelItem = ({ changeChannel, channel, isCurrent }) => {
     );
   }
 
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const onShowDeleteChannelConfirmation = (e) => {
     e.preventDefault();
@@ -40,8 +42,8 @@ const ChannelItem = ({ changeChannel, channel, isCurrent }) => {
       </Button>
       <Dropdown.Toggle className="shadow-none" split variant={isCurrent ? 'secondary' : 'light'} />
       <Dropdown.Menu>
-        <Dropdown.Item onClick={onShowDeleteChannelConfirmation}>Delete</Dropdown.Item>
-        <Dropdown.Item onClick={onShowRenameChannel}>Rename</Dropdown.Item>
+        <Dropdown.Item onClick={onShowDeleteChannelConfirmation}>{t('button.delete')}</Dropdown.Item>
+        <Dropdown.Item onClick={onShowRenameChannel}>{t('button.rename')}</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );
@@ -63,6 +65,7 @@ const Channels = ({ changeChannel, currentChannelId, children }) => (
 
 export default () => {
   const { currentChannelId, channels } = useSelector(({ channelsData }) => channelsData);
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const changeChannel = (channelId) => {
@@ -76,7 +79,7 @@ export default () => {
   return (
     <div className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
       <div className="d-flex justify-content-between mb-2 ps-2 pe-2">
-        <div className="bg-light p-2">Channels</div>
+        <div className="bg-light p-2">{t('text.channels')}</div>
         <button
           className="btn btn-outline-primary"
           type="button"
