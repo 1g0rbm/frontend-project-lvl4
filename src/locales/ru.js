@@ -31,7 +31,7 @@ const ru = {
       message_1: '{{ count }} сообщения',
       message_2: '{{ count }} сообщений',
       channels: 'Каналы',
-      chat: 'Хекслет чат',
+      chat: 'Hexlet Chat',
       alreadyHaveAccount: 'Уже есть аккаунт?',
       dontHaveAccount: 'Нет аккаунта?',
     },

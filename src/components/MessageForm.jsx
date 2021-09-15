@@ -60,6 +60,7 @@ export default () => {
                 className="p-0 ps-2 form-control"
                 ref={inputRef}
                 disabled={isSubmitting || !!error}
+                data-testid="new-message"
               />
               <button
                 type="submit"
