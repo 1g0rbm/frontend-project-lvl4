@@ -70,12 +70,12 @@ export default () => {
                     {httpError && <Alert variant="danger">{t(getErrorLabel())}</Alert>}
                   </Form.Group>
                   <Form.Group className="mb-3">
-                    <FloatingLabel label={t('label.username')}>
+                    <FloatingLabel label={t('label.regUsername')}>
                       <Field
                         type="text"
                         name="username"
                         value={values.username}
-                        placeholder={t('label.username')}
+                        placeholder={t('label.regUsername')}
                         className={cn({
                           'form-control': true,
                           'is-invalid': touched.username && !!errors.username,
