@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setInitialState } from '../slices/channelsDataSlice.js';
-import { useAuthContext } from '../context/authContext.jsx';
+import { authContext } from '../context/authContext.jsx';
 import useHttp from '../hooks/useHttp.js';
 import Sidebar from './Sidebar.jsx';
 import Messages from './Messages.jsx';
 import Modal from './modal/Modal.jsx';
 
 const Chat = () => {
-  const auth = useAuthContext();
+  const auth = useContext(authContext);
   const dispatch = useDispatch();
   const { request } = useHttp();
 

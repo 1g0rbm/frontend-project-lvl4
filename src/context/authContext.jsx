@@ -1,11 +1,9 @@
 import { noop } from 'jquery';
-import React, {
-  createContext, useContext, useState, useCallback,
-} from 'react';
+import React, { createContext, useState, useCallback } from 'react';
 
 const storageKey = 'userData';
 
-const context = createContext({
+const authContext = createContext({
   token: null,
   username: null,
   login: noop,
@@ -35,14 +33,14 @@ const useAuth = () => {
   };
 };
 
-export const useAuthContext = () => useContext(context);
-
-export const AuthProvider = ({ children }) => {
+const AuthContextProvider = ({ children }) => {
   const auth = useAuth();
 
   return (
-    <context.Provider value={auth}>
+    <authContext.Provider value={auth}>
       {children}
-    </context.Provider>
+    </authContext.Provider>
   );
 };
+
+export { authContext, AuthContextProvider };

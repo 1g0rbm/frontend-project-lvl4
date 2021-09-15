@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { useAuthContext } from '../context/authContext.jsx';
+import { authContext } from '../context/authContext.jsx';
 
 export default ({
   path, exec, children,
 }) => {
-  const { isAuth } = useAuthContext();
+  const { isAuth } = useContext(authContext);
 
   return (
     <Route

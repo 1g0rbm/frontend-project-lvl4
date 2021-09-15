@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Field, Form as FormikForm, Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
@@ -9,13 +9,13 @@ import { useHistory, useLocation } from 'react-router-dom';
 import validators from '../validators.js';
 import useHttp from '../hooks/useHttp.js';
 import routes from '../routes.js';
-import { useAuthContext } from '../context/authContext.jsx';
+import { authContext } from '../context/authContext.jsx';
 
 const LoginForm = () => {
   const {
     request, clearHttpError, httpError, responseCode,
   } = useHttp();
-  const auth = useAuthContext();
+  const auth = useContext(authContext);
   const history = useHistory();
   const location = useLocation();
   const { from } = location.state || { from: { pathname: '/' } };

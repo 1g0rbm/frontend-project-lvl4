@@ -1,5 +1,5 @@
 import React, {
-  useRef, useEffect, useState,
+  useRef, useEffect, useState, useContext,
 } from 'react';
 import {
   Alert, Button, FloatingLabel, Form, Modal,
@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import validators from '../../validators.js';
 import useSocket from '../../hooks/useSocket.js';
-import { useAuthContext } from '../../context/authContext.jsx';
+import { authContext } from '../../context/authContext.jsx';
 
 export default ({ hide }) => {
   const { t } = useTranslation();
@@ -19,7 +19,7 @@ export default ({ hide }) => {
   const { emit } = useSocket();
   const dispatch = useDispatch();
   const [formError, setError] = useState(null);
-  const { username } = useAuthContext();
+  const { username } = useContext(authContext);
   const onHide = () => dispatch(hide());
 
   useEffect(() => {

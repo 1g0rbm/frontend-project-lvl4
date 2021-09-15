@@ -1,5 +1,50 @@
-import { createContext } from 'react';
+import React, { createContext, useContext } from 'react';
+import { io } from 'socket.io-client';
+import {
+  newChannel, removeChannel, renameChannel, setCurrentChannelId,
+} from '../slices/channelsDataSlice.js';
+import { newMessage } from '../slices/messagesDataSlice.js';
+import { authContext } from './authContext.jsx';
 
-export default createContext({
-  socket: null,
-});
+const socketContext = createContext({ socket: null });
+
+const SocketContextProvider = ({ children, store }) => {
+  const { username } = useContext(authContext);
+  const socket = io();
+
+  socket.on(
+    'newMessage',
+    (message) => {
+      store.dispatch(newMessage(message));
+    },
+  );
+  socket.on(
+    'newChannel',
+    (channel) => {
+      store.dispatch(newChannel(channel));
+      if (channel?.owner === username) {
+        store.dispatch(setCurrentChannelId(channel.id));
+      }
+    },
+  );
+  socket.on(
+    'removeChannel',
+    (message) => {
+      store.dispatch(removeChannel(message));
+    },
+  );
+  socket.on(
+    'renameChannel',
+    (message) => {
+      store.dispatch(renameChannel({ channel: message }));
+    },
+  );
+
+  return (
+    <socketContext.Provider value={{ socket }}>
+      {children}
+    </socketContext.Provider>
+  );
+};
+
+export { SocketContextProvider, socketContext };
