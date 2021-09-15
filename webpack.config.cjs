@@ -11,6 +11,9 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
   },
+  entry: {
+    main: './src/index.jsx',
+  },
   output: {
     path: path.join(__dirname, 'dist', 'public'),
     publicPath: '/assets/',
