@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import {
   Alert, Button, Form, Modal,
 } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { Formik, Form as FormikForm } from 'formik';
 import { useDispatch } from 'react-redux';
 import useSocket from '../../hooks/useSocket.js';
 
 export default ({ hide, data }) => {
+  const { t } = useTranslation();
   const { emit } = useSocket();
   const dispatch = useDispatch();
   const [formError, setError] = useState(null);
@@ -15,7 +17,7 @@ export default ({ hide, data }) => {
   return (
     <>
       <Modal.Header>
-        <h3>Delete channel</h3>
+        <h3>{t('text.deleteChannel')}</h3>
       </Modal.Header>
       <Modal.Body>
         <Formik
@@ -31,7 +33,7 @@ export default ({ hide, data }) => {
               },
               () => {
                 setSubmitting(false);
-                setError('Network error');
+                setError('error.network');
               },
             );
           }}
@@ -39,17 +41,19 @@ export default ({ hide, data }) => {
           {({ isSubmitting }) => (
             <FormikForm>
               <Form.Group>
-                {formError && <Alert variant="danger">{formError}</Alert>}
+                {formError && <Alert variant="danger">{t(formError)}</Alert>}
               </Form.Group>
-              <p>{`Are you sure you want to delete channel "${data.channel.name}"?`}</p>
+              <p>{t('text.deleteChannelConfirmation', { name: data.channel.name })}</p>
               <Form.Group className="d-flex justify-content-end">
-                <Button className="me-2" onClick={hide} variant="secondary">Cancel</Button>
+                <Button className="me-2" onClick={hide} variant="secondary">
+                  {t('button.cancel')}
+                </Button>
                 <Button
                   type="submit"
                   variant="danger"
                   disabled={isSubmitting}
                 >
-                  Delete
+                  {t('button.delete')}
                 </Button>
               </Form.Group>
             </FormikForm>
