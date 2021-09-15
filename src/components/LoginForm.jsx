@@ -23,7 +23,7 @@ const LoginForm = () => {
 
   const signUpHandler = (e) => {
     e.preventDefault();
-    history.replace('/signup');
+    history.replace(routes.signupPage());
   };
 
   const loginHandler = async (username, password) => {
@@ -119,7 +119,7 @@ const LoginForm = () => {
             <div className="text-center">
               <span>{t('text.dontHaveAccount')}</span>
               {' '}
-              <a href="/signup" onClick={signUpHandler}>{t('button.signup')}</a>
+              <a href={routes.signupPage()} onClick={signUpHandler}>{t('button.signup')}</a>
             </div>
           </div>
         </div>

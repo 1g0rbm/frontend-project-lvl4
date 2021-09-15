@@ -70,6 +70,7 @@ export default ({ hide, data }) => {
                       'form-control': true,
                       'is-invalid': !!errors?.name,
                     })}
+                    data-testid="rename-channel"
                   />
                   <div className="invalid-tooltip">
                     {t(errors.name)}

@@ -10,7 +10,7 @@ import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import validators from '../validators';
 import useHttp from '../hooks/useHttp';
-import routes from '../routes';
+import routes from '../routes.js';
 import AuthContext from '../context/authContext.jsx';
 
 export default () => {
@@ -23,7 +23,7 @@ export default () => {
 
   const loginUpHandler = (e) => {
     e.preventDefault();
-    history.push('/login');
+    history.push(routes.loginPage());
   };
 
   const signupHandler = async (username, password) => {
@@ -34,7 +34,7 @@ export default () => {
     );
 
     auth.login(data.token, data.username);
-    history.replace('/');
+    history.replace(routes.mainPage());
   };
 
   const getErrorLabel = () => {
@@ -138,7 +138,7 @@ export default () => {
             <div className="text-center">
               <span>{t('text.alreadyHaveAccount')}</span>
               {' '}
-              <a href="/login" onClick={loginUpHandler}>{t('button.login')}</a>
+              <a href={routes.loginPage()} onClick={loginUpHandler}>{t('button.login')}</a>
             </div>
           </div>
         </div>

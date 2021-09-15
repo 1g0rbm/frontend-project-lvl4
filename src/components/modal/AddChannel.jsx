@@ -74,6 +74,7 @@ export default ({ hide }) => {
                       'form-control': true,
                       'is-invalid': !!errors?.name,
                     })}
+                    data-testid="add-channel"
                   />
                   <div className="invalid-tooltip">
                     {t(errors.name)}
