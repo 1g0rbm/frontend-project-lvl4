@@ -2,7 +2,7 @@
 
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const DotenvWebpackPlugin = require('dotenv-webpack');
+const webpack = require('webpack');
 
 const mode = process.env.NODE_ENV || 'development';
 
@@ -27,7 +27,9 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin(),
-    new DotenvWebpackPlugin({ systemvars: true }),
+    new webpack.DefinePlugin({
+      'process.env.ROLLBAR_TOKEN': JSON.stringify(process.env.ROLLBAR_TOKEN),
+    }),
   ],
   module: {
     rules: [
