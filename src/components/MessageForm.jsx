@@ -1,18 +1,16 @@
-import React, {
-  useContext, useEffect, useRef, useState,
-} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Form as FormikForm, Formik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import { useSelector } from 'react-redux';
-import AuthContext from '../context/authContext.jsx';
+import { useAuthContext } from '../context/authContext.jsx';
 import useSocket from '../hooks/useSocket.js';
 
 export default () => {
   const { t } = useTranslation();
   const { currentChannelId } = useSelector(({ channelsData }) => channelsData);
-  const { username } = useContext(AuthContext);
+  const { username } = useAuthContext();
   const { emit } = useSocket();
   const inputRef = useRef(null);
   const [error, setError] = useState(null);

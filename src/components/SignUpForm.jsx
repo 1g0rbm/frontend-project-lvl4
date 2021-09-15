@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   Formik, Form as FormikForm, Field,
@@ -11,13 +11,13 @@ import { useTranslation } from 'react-i18next';
 import validators from '../validators';
 import useHttp from '../hooks/useHttp';
 import routes from '../routes.js';
-import AuthContext from '../context/authContext.jsx';
+import { useAuthContext } from '../context/authContext.jsx';
 
 export default () => {
   const {
     request, clearHttpError, httpError, responseCode,
   } = useHttp();
-  const auth = useContext(AuthContext);
+  const auth = useAuthContext();
   const history = useHistory();
   const { t } = useTranslation();
 

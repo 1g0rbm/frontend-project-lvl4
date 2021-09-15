@@ -3,10 +3,10 @@ import {
   newChannel, removeChannel, renameChannel, setCurrentChannelId,
 } from './slices/channelsDataSlice.js';
 import { newMessage } from './slices/messagesDataSlice.js';
-import useAuth from './hooks/useAuth.js';
+import { useAuthContext } from './context/authContext.jsx';
 
 export default (store) => {
-  const { username } = useAuth();
+  const { username } = useAuthContext();
   const socket = io();
 
   socket.on(
