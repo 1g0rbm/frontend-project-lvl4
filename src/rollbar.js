@@ -1,6 +1,3 @@
-console.log('TOKEN: ', process.env.ROLLBAR_TOKEN);
-console.log('NODE_ENV: ', process.env.NODE_ENV);
-
 const config = {
   enabled: process.env.NODE_ENV === 'production',
   accessToken: process.env.ROLLBAR_TOKEN,
