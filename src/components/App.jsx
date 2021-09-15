@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider as ReduxProvider } from 'react-redux';
+import { Provider as RollbarProvider, ErrorBoundary, LEVEL_WARN } from '@rollbar/react';
 import AuthContext from '../context/authContext.jsx';
 import SocketContext from '../context/socketContext.jsx';
 import useAuth from '../hooks/useAuth.js';
@@ -15,6 +16,7 @@ import modalDataReducer from '../slices/modalDataSlice.js';
 import initSocket from '../sockets.js';
 import Navbar from './Navbar.jsx';
 import SignUpForm from './SignUpForm.jsx';
+import rollbarConfig from '../rollbar.js';
 
 const App = () => {
   const {
@@ -31,28 +33,32 @@ const App = () => {
   });
 
   return (
-    <AuthContext.Provider value={{
-      login, logout, token, username, isAuth,
-    }}
-    >
-      <SocketContext.Provider value={{ socket: initSocket(store) }}>
-        <ReduxProvider store={store}>
-          <BrowserRouter>
-            <div className="d-flex flex-column h-100">
-              <Navbar />
-              <Switch>
-                <PrivateRoute isAuth={isAuth} path="/" exact>
-                  <Chat fluid className="d-flex flex-column vh-100" />
-                </PrivateRoute>
-                <Route path="/login" exact render={() => <LoginForm />} />
-                <Route path="/signup" exact render={() => <SignUpForm />} />
-                <Route path="*" exact render={() => <Error404 />} />
-              </Switch>
-            </div>
-          </BrowserRouter>
-        </ReduxProvider>
-      </SocketContext.Provider>
-    </AuthContext.Provider>
+    <RollbarProvider config={rollbarConfig}>
+      <ErrorBoundary level={LEVEL_WARN} fallbackUI={() => <Error404 />}>
+        <AuthContext.Provider value={{
+          login, logout, token, username, isAuth,
+        }}
+        >
+          <SocketContext.Provider value={{ socket: initSocket(store) }}>
+            <ReduxProvider store={store}>
+              <BrowserRouter>
+                <div className="d-flex flex-column h-100">
+                  <Navbar />
+                  <Switch>
+                    <PrivateRoute isAuth={isAuth} path="/" exact>
+                      <Chat fluid className="d-flex flex-column vh-100" />
+                    </PrivateRoute>
+                    <Route path="/login" exact render={() => <LoginForm />} />
+                    <Route path="/signup" exact render={() => <SignUpForm />} />
+                    <Route path="*" exact render={() => <Error404 />} />
+                  </Switch>
+                </div>
+              </BrowserRouter>
+            </ReduxProvider>
+          </SocketContext.Provider>
+        </AuthContext.Provider>
+      </ErrorBoundary>
+    </RollbarProvider>
   );
 };
 
