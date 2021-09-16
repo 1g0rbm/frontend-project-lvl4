@@ -33,6 +33,10 @@ export default () => {
       { username, password },
     );
 
+    if (data === null) {
+      return;
+    }
+
     auth.login(data.token, data.username);
     history.replace(routes.mainPage());
   };
@@ -70,9 +74,10 @@ export default () => {
                     {httpError && <Alert variant="danger">{t(getErrorLabel())}</Alert>}
                   </Form.Group>
                   <Form.Group className="mb-3">
-                    <FloatingLabel label={t('label.regUsername')}>
+                    <FloatingLabel>
                       <Field
                         type="text"
+                        id="username"
                         name="username"
                         value={values.username}
                         placeholder={t('label.regUsername')}
@@ -81,13 +86,14 @@ export default () => {
                           'is-invalid': touched.username && !!errors.username,
                         })}
                       />
+                      <label htmlFor="username">{t('label.regUsername')}</label>
                       <div className="invalid-tooltip">
                         {t(errors.username)}
                       </div>
                     </FloatingLabel>
                   </Form.Group>
                   <Form.Group className="mb-3">
-                    <FloatingLabel label={t('label.password')}>
+                    <FloatingLabel>
                       <Field
                         id="password"
                         type="password"
@@ -99,13 +105,14 @@ export default () => {
                           'is-invalid': touched.password && !!errors.password,
                         })}
                       />
+                      <label htmlFor="password">{t('label.password')}</label>
                       <div className="invalid-tooltip">
                         {t(errors.password)}
                       </div>
                     </FloatingLabel>
                   </Form.Group>
                   <Form.Group className="mb-3">
-                    <FloatingLabel label={t('label.passwordConfirm')}>
+                    <FloatingLabel>
                       <Field
                         id="passwordConfirmation"
                         type="password"
@@ -117,6 +124,7 @@ export default () => {
                           'is-invalid': touched.passwordConfirmation && !!errors.passwordConfirmation,
                         })}
                       />
+                      <label htmlFor="passwordConfirmation">{t('label.passwordConfirm')}</label>
                       <div className="invalid-tooltip">
                         {t(errors.passwordConfirmation)}
                       </div>

@@ -126,7 +126,7 @@ const LoginForm = () => {
             <div className="text-center">
               <span>{t('text.dontHaveAccount')}</span>
               {' '}
-              <a href={routes.signupPage()} onClick={signUpHandler}>{t('button.signup')}</a>
+              <a href={routes.signupPage()} onClick={signUpHandler}>{t('button.toSignup')}</a>
             </div>
           </div>
         </div>
