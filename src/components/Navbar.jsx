@@ -18,7 +18,7 @@ export default () => {
   return (
     <Navbar className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <Container>
-        <Navbar.Brand href="/">Hexlet Chat</Navbar.Brand>
+        <Navbar.Brand href="/">{t('text.chat')}</Navbar.Brand>
         { !!isAuth && <Button variant="primary" onClick={onLogout}>{t('button.logout')}</Button> }
       </Container>
     </Navbar>
