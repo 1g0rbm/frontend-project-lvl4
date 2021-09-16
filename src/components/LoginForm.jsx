@@ -70,7 +70,7 @@ const LoginForm = () => {
                     {httpError && <Alert variant="danger">{t(getErrorLabel())}</Alert>}
                   </Form.Group>
                   <Form.Group className="mb-3">
-                    <FloatingLabel label={t('label.username')}>
+                    <FloatingLabel>
                       <Field
                         type="text"
                         name="username"
@@ -81,13 +81,14 @@ const LoginForm = () => {
                           'is-invalid': touched.username && !!errors.username,
                         })}
                       />
+                      <label htmlFor="username">{t('label.username')}</label>
                       <div className="invalid-tooltip">
                         {t(errors.username)}
                       </div>
                     </FloatingLabel>
                   </Form.Group>
                   <Form.Group className="mb-3">
-                    <FloatingLabel label={t('label.password')}>
+                    <FloatingLabel>
                       <Field
                         id="password"
                         type="password"
@@ -99,6 +100,7 @@ const LoginForm = () => {
                           'is-invalid': touched.password && !!errors.password,
                         })}
                       />
+                      <label htmlFor="password">{t('label.password')}</label>
                       <div className="invalid-tooltip">
                         {t(errors.password)}
                       </div>
