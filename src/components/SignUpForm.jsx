@@ -80,13 +80,13 @@ export default () => {
                         id="username"
                         name="username"
                         value={values.username}
-                        placeholder={t('label.regUsername')}
+                        placeholder={t('label.username')}
                         className={cn({
                           'form-control': true,
                           'is-invalid': touched.username && !!errors.username,
                         })}
                       />
-                      <label htmlFor="username">{t('label.regUsername')}</label>
+                      <label htmlFor="username">{t('label.username')}</label>
                       <div className="invalid-tooltip">
                         {t(errors.username)}
                       </div>
