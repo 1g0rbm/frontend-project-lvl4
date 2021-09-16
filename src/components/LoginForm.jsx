@@ -73,6 +73,7 @@ const LoginForm = () => {
                     <FloatingLabel>
                       <Field
                         type="text"
+                        id="username"
                         name="username"
                         value={values.username}
                         placeholder={t('label.username')}
