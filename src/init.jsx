@@ -31,9 +31,8 @@ export default async () => {
     .init({
       resources,
       lng: 'ru',
-      interpolation: {
-        escapeValue: false,
-      },
+      fallbackLng: 'ru',
+      debug: false,
     });
 
   return (
