@@ -20,7 +20,7 @@ export default () => {
     } catch (e) {
       setResponseCode(e.response.status);
       setHttpError(e.message);
-      throw e;
+      return null;
     }
   }, []);
 

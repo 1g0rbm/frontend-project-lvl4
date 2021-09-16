@@ -33,6 +33,10 @@ const LoginForm = () => {
       { username, password },
     );
 
+    if (data === null) {
+      return;
+    }
+
     auth.login(data.token, data.username);
     history.replace(from);
   };
