@@ -15,7 +15,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Container aria-label={state === 'show'} className="d-flex flex-column h-100">
+      <Container aria-hidden={state === 'show'} className="d-flex flex-column h-100">
         <Navbar />
         <Switch>
           <Route path={routes.loginPage()} render={() => <LoginForm />} />
