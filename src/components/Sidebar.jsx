@@ -4,6 +4,7 @@ import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { setCurrentChannelId } from '../slices/channelsDataSlice.js';
 import { showAddChannel, showDeleteChannelConfirmation, showRenameChanel } from '../slices/modalDataSlice.js';
+import Modal from './modal/Modal.jsx';
 
 const ChannelItem = ({ changeChannel, channel, isCurrent }) => {
   if (!channel.removable) {
@@ -76,6 +77,8 @@ export default () => {
     dispatch(showAddChannel());
   };
 
+  const { type, data } = useSelector(({ modalData }) => modalData);
+
   return (
     <div className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
       <div className="d-flex justify-content-between mb-2 ps-2 pe-2">
@@ -96,6 +99,7 @@ export default () => {
         {channels}
       </Channels>
       )}
+      {type && <Modal type={type} data={data} />}
     </div>
   );
 };
