@@ -23,7 +23,7 @@ const LoginForm = () => {
 
   const signUpHandler = (e) => {
     e.preventDefault();
-    history.replace(routes.signupPage());
+    history.push(routes.signupPage());
   };
 
   const loginHandler = async (username, password) => {
