@@ -8,8 +8,10 @@ import i18n from 'i18next';
 import { configureStore } from '@reduxjs/toolkit';
 import { AuthContextProvider } from './context/authContext.jsx';
 import { SocketContextProvider } from './context/socketContext.jsx';
-import channelsDataReducer from './slices/channelsDataSlice.js';
-import messagesDataReducer from './slices/messagesDataSlice.js';
+import channelsDataReducer, {
+  newChannel, removeChannel, renameChannel, setCurrentChannelId,
+} from './slices/channelsDataSlice.js';
+import messagesDataReducer, { newMessage } from './slices/messagesDataSlice.js';
 import modalDataReducer from './slices/modalDataSlice.js';
 import rollbarConfig from './rollbar.js';
 import resources from './locales/index.js';
@@ -34,6 +36,32 @@ export default async (socket) => {
       fallbackLng: 'ru',
       debug: false,
     });
+
+  socket.on(
+    'newMessage',
+    (message) => {
+      store.dispatch(newMessage(message));
+    },
+  );
+  socket.on(
+    'newChannel',
+    (channel) => {
+      store.dispatch(newChannel(channel));
+      store.dispatch(setCurrentChannelId(channel.id));
+    },
+  );
+  socket.on(
+    'removeChannel',
+    (message) => {
+      store.dispatch(removeChannel(message));
+    },
+  );
+  socket.on(
+    'renameChannel',
+    (message) => {
+      store.dispatch(renameChannel({ channel: message }));
+    },
+  );
 
   return (
     <RollbarProvider config={rollbarConfig}>
