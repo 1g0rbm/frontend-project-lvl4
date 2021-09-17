@@ -4,8 +4,6 @@ import { socketContext } from '../context/socketContext.jsx';
 export default () => {
   const { socket } = useContext(socketContext);
 
-  console.log('SOCKET: ', socket);
-
   const emit = (channel, message, resolve = () => {}, reject = () => {}) => {
     socket.emit(
       channel,
