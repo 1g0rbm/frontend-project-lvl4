@@ -13,7 +13,7 @@ import useHttp from '../hooks/useHttp';
 import routes from '../routes.js';
 import { authContext } from '../context/authContext.jsx';
 
-export default () => {
+const SignUpForm = () => {
   const {
     request, clearHttpError, httpError, responseCode,
   } = useHttp();
@@ -154,3 +154,7 @@ export default () => {
     </div>
   );
 };
+
+SignUpForm.displayName = 'SignUpForm';
+
+export default SignUpForm;

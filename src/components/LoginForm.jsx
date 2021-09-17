@@ -135,4 +135,6 @@ const LoginForm = () => {
   );
 };
 
+LoginForm.displayName = 'LoginForm';
+
 export default LoginForm;

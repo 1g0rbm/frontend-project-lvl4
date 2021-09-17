@@ -64,7 +64,7 @@ const Channels = ({ changeChannel, currentChannelId, children }) => (
   </ul>
 );
 
-export default () => {
+const Sidebar = () => {
   const { currentChannelId, channels } = useSelector(({ channelsData }) => channelsData);
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -103,3 +103,7 @@ export default () => {
     </div>
   );
 };
+
+Sidebar.displayName = 'Sidebar';
+
+export default Sidebar;

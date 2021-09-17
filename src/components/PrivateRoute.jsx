@@ -3,7 +3,7 @@ import { Redirect, Route } from 'react-router-dom';
 import { authContext } from '../context/authContext.jsx';
 import routes from '../routes.js';
 
-export default ({
+const PrivateRoute = ({
   path, exec, children,
 }) => {
   const { isAuth } = useContext(authContext);
@@ -16,3 +16,7 @@ export default ({
     />
   );
 };
+
+PrivateRoute.displayName = 'PrivateRoute';
+
+export default PrivateRoute;

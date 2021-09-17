@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { authContext } from '../context/authContext.jsx';
 import useSocket from '../hooks/useSocket.js';
 
-export default () => {
+const MessageForm = () => {
   const { t } = useTranslation();
   const { currentChannelId } = useSelector(({ channelsData }) => channelsData);
   const { username } = useContext(authContext);
@@ -78,3 +78,7 @@ export default () => {
     </div>
   );
 };
+
+MessageForm.displayName = 'MessageForm';
+
+export default MessageForm;

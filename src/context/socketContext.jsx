@@ -38,7 +38,7 @@ const SocketContextProvider = ({ children, store, socket }) => {
         store.dispatch(renameChannel({ channel: message }));
       },
     );
-  }, [socket]);
+  }, [socket, username]);
 
   return (
     <socketContext.Provider value={{ socket }}>
