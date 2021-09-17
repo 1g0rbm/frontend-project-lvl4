@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Form as FormikForm, Formik } from 'formik';
+import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import { useSelector } from 'react-redux';
@@ -62,13 +63,14 @@ export default () => {
                 disabled={isSubmitting || !!error}
                 data-testid="new-message"
               />
-              <button
+              <Button
                 type="submit"
+                variant="light"
                 className="btn btn-outline-primary btn-group-vertical"
                 disabled={isSubmitting || !values.text || !!error}
               >
                 {t('button.send')}
-              </button>
+              </Button>
             </Form.Group>
           </FormikForm>
         )}
