@@ -7,7 +7,7 @@ import { Formik, Form as FormikForm } from 'formik';
 import { useDispatch } from 'react-redux';
 import useSocket from '../../hooks/useSocket.js';
 
-export default ({ hide, data }) => {
+const DeleteChannelConfirmation = ({ hide, data }) => {
   const { t } = useTranslation();
   const { emit } = useSocket();
   const dispatch = useDispatch();
@@ -63,3 +63,7 @@ export default ({ hide, data }) => {
     </>
   );
 };
+
+DeleteChannelConfirmation.displayName = 'DeleteChannelConfirmation';
+
+export default DeleteChannelConfirmation;

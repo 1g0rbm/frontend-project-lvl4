@@ -4,9 +4,12 @@ import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { setCurrentChannelId } from '../slices/channelsDataSlice.js';
 import { showAddChannel, showDeleteChannelConfirmation, showRenameChanel } from '../slices/modalDataSlice.js';
-import Modal from './modal/Modal.jsx';
+import ChannelModal from './modal/ChannelModal.jsx';
 
 const ChannelItem = ({ changeChannel, channel, isCurrent }) => {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+
   if (!channel.removable) {
     return (
       <Button
@@ -20,8 +23,6 @@ const ChannelItem = ({ changeChannel, channel, isCurrent }) => {
     );
   }
 
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
   const onShowDeleteChannelConfirmation = (e) => {
     e.preventDefault();
     dispatch(showDeleteChannelConfirmation({ channel }));
@@ -99,7 +100,7 @@ const Sidebar = () => {
         {channels}
       </Channels>
       )}
-      {type && <Modal isOpen={state === 'show'} type={type} data={data} />}
+      {type && <ChannelModal isOpen={state === 'show'} type={type} data={data} />}
     </div>
   );
 };

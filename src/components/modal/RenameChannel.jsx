@@ -9,7 +9,7 @@ import cn from 'classnames';
 import validators from '../../validators.js';
 import useSocket from '../../hooks/useSocket.js';
 
-export default ({ hide, data }) => {
+const RenameChannel = ({ hide, data }) => {
   const { t } = useTranslation();
   const { channels } = useSelector(({ channelsData }) => channelsData);
   const inputRef = useRef(null);
@@ -96,3 +96,7 @@ export default ({ hide, data }) => {
     </>
   );
 };
+
+RenameChannel.displayName = 'RenameChannel';
+
+export default RenameChannel;

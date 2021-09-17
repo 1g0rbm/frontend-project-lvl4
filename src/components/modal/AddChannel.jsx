@@ -12,7 +12,7 @@ import validators from '../../validators.js';
 import useSocket from '../../hooks/useSocket.js';
 import { authContext } from '../../context/authContext.jsx';
 
-export default ({ hide }) => {
+const AddChannel = ({ hide }) => {
   const { t } = useTranslation();
   const { channels } = useSelector(({ channelsData }) => channelsData);
   const inputRef = useRef(null);
@@ -100,3 +100,7 @@ export default ({ hide }) => {
     </>
   );
 };
+
+AddChannel.displayName = 'AddChannel';
+
+export default AddChannel;
