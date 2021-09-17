@@ -1,9 +1,7 @@
 import React, { useContext } from 'react';
-import {
-  Button, Container, Navbar, Link,
-} from 'react-bootstrap';
+import { Button, Container, Navbar } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { authContext } from '../context/authContext.jsx';
 import routes from '../routes.js';
 
@@ -20,7 +18,7 @@ export default () => {
   return (
     <Navbar className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <Container>
-        <Navbar.Brand as={Link} href="/">{t('text.chat')}</Navbar.Brand>
+        <Navbar.Brand as={Link} to={routes.mainPage()}>{t('text.chat')}</Navbar.Brand>
         { !!isAuth && <Button variant="primary" onClick={onLogout}>{t('button.logout')}</Button> }
       </Container>
     </Navbar>
