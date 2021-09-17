@@ -12,8 +12,8 @@ const App = () => (
     <div className="d-flex flex-column h-100">
       <Navbar />
       <Switch>
-        <Route path="/login" exact render={() => <LoginForm />} />
-        <Route path="/signup" exact render={() => <SignUpForm />} />
+        <Route path="/login" render={() => <LoginForm />} />
+        <Route path="/signup" render={() => <SignUpForm />} />
         <PrivateRoute path="/" exact>
           <Chat fluid className="d-flex flex-column vh-100" />
         </PrivateRoute>
