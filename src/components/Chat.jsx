@@ -34,4 +34,6 @@ const Chat = () => {
   );
 };
 
+Chat.displayName = 'Chat';
+
 export default Chat;

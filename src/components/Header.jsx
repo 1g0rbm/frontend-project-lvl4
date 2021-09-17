@@ -5,7 +5,7 @@ import { useHistory, Link } from 'react-router-dom';
 import { authContext } from '../context/authContext.jsx';
 import routes from '../routes.js';
 
-export default () => {
+const Header = () => {
   const { logout, isAuth } = useContext(authContext);
   const history = useHistory();
   const { t } = useTranslation();
@@ -24,3 +24,7 @@ export default () => {
     </Navbar>
   );
 };
+
+Header.displayName = 'Header';
+
+export default Header;

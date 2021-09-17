@@ -6,7 +6,7 @@ import Chat from './Chat.jsx';
 import Error404 from './Error404.jsx';
 import LoginForm from './LoginForm.jsx';
 import PrivateRoute from './PrivateRoute.jsx';
-import Navbar from './Navbar.jsx';
+import Header from './Header.jsx';
 import SignUpForm from './SignUpForm.jsx';
 import routes from '../routes.js';
 
@@ -16,7 +16,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Container aria-hidden={state === 'show'} className="d-flex flex-column h-100">
-        <Navbar />
+        <Header />
         <Switch>
           <Route path={routes.loginPage()} render={() => <LoginForm />} />
           <Route path={routes.signupPage()} render={() => <SignUpForm />} />
