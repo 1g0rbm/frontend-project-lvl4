@@ -6,7 +6,7 @@ import AddChannel from './AddChannel.jsx';
 import DeleteChannelConfirmation from './DeleteChannelConfirmation.jsx';
 import RenameChannel from './RenameChannel.jsx';
 
-export default ({ type, data }) => {
+export default ({ isOpen, type, data }) => {
   const dispatch = useDispatch();
   const onHide = () => dispatch(hide());
 
@@ -17,7 +17,7 @@ export default ({ type, data }) => {
   };
 
   return (
-    <Modal show centered onHide={onHide}>
+    <Modal show={isOpen} centered onHide={onHide}>
       {modals[type]}
     </Modal>
   );
