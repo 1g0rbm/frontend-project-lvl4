@@ -30,7 +30,7 @@ export default {
         .max(20, 'error.lengthMaxChannel')
         .required('error.requred')
         .notOneOf(existedChannels, 'error.alreadyHas')
-        .matches(/^[a-z0-9-_]+$/, 'error.onlyLettersAndDigit'),
+        .matches(/^[a-z0-9-_\s]+$/, 'error.onlyLettersAndDigit'),
     })
   ),
 };
