@@ -1,5 +1,4 @@
 import React, { createContext, useContext } from 'react';
-import { io } from 'socket.io-client';
 import {
   newChannel, removeChannel, renameChannel, setCurrentChannelId,
 } from '../slices/channelsDataSlice.js';
@@ -8,9 +7,8 @@ import { authContext } from './authContext.jsx';
 
 const socketContext = createContext({ socket: null });
 
-const SocketContextProvider = ({ children, store }) => {
+const SocketContextProvider = ({ children, store, socket }) => {
   const { username } = useContext(authContext);
-  const socket = io();
 
   socket.on(
     'newMessage',

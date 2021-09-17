@@ -16,7 +16,7 @@ import resources from './locales/index.js';
 import Error404 from './components/Error404.jsx';
 import App from './components/App.jsx';
 
-export default async () => {
+export default async (socket) => {
   const store = configureStore({
     reducer: {
       channelsData: channelsDataReducer,
@@ -40,7 +40,7 @@ export default async () => {
       <ErrorBoundary level={LEVEL_WARN} fallbackUI={() => <Error404 />}>
         <I18nextProvider i18n={instance}>
           <AuthContextProvider>
-            <SocketContextProvider store={store}>
+            <SocketContextProvider socket={socket} store={store}>
               <ReduxProvider store={store}>
                 <App />
               </ReduxProvider>
