@@ -1,13 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react';
 import {
-  Alert, Button, FloatingLabel, Form, Modal,
+  Alert, Button, Form, Modal,
 } from 'react-bootstrap';
 import { Formik, Form as FormikForm } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import cn from 'classnames';
 import validators from '../../validators.js';
 import useSocket from '../../hooks/useSocket.js';
+import FieldLabel from '../FieldLabel.jsx';
 
 const RenameChannel = ({ hide, data }) => {
   const { t } = useTranslation();
@@ -51,32 +51,23 @@ const RenameChannel = ({ hide, data }) => {
           )}
         >
           {({
-            handleChange, values, errors, isSubmitting,
+            values, errors, isSubmitting,
           }) => (
             <FormikForm>
               <Form.Group>
                 {formError && <Alert variant="danger">{t(formError)}</Alert>}
               </Form.Group>
-              <Form.Group className="mb-3">
-                <FloatingLabel label={t('label.channel')}>
-                  <Form.Control
-                    onChange={handleChange}
-                    type="text"
-                    name="name"
-                    placeholder={t('label.channel')}
-                    ref={inputRef}
-                    value={values.name}
-                    className={cn({
-                      'form-control': true,
-                      'is-invalid': !!errors?.name,
-                    })}
-                    data-testid="rename-channel"
-                  />
-                  <div className="invalid-tooltip">
-                    {t(errors.name)}
-                  </div>
-                </FloatingLabel>
-              </Form.Group>
+              <FieldLabel
+                type="text"
+                id="name"
+                name="name"
+                value={values.name}
+                isInvalid={!!errors?.name}
+                error={t(errors.name)}
+                label={t('label.channel')}
+                testid="rename-channel"
+                ref={inputRef}
+              />
               <Form.Group className="d-flex justify-content-end">
                 <Button className="me-2" onClick={hide} variant="secondary">
                   {t('button.cancel')}

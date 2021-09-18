@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Container } from 'react-bootstrap';
 import Chat from './Chat.jsx';
 import Error404 from './Error404.jsx';
 import LoginForm from './LoginForm.jsx';
@@ -15,7 +14,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Container aria-hidden={state === 'show'} className="d-flex flex-column h-100">
+      <div aria-hidden={state === 'show'} className="d-flex flex-column h-100">
         <Header />
         <Switch>
           <Route path={routes.loginPage()} render={() => <LoginForm />} />
@@ -25,7 +24,7 @@ const App = () => {
           </PrivateRoute>
           <Route path="*" exact render={() => <Error404 />} />
         </Switch>
-      </Container>
+      </div>
     </BrowserRouter>
   );
 };

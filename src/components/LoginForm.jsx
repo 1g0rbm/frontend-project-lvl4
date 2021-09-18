@@ -1,8 +1,6 @@
 import React, { useContext } from 'react';
-import { Field, Form as FormikForm, Formik } from 'formik';
+import { Form as FormikForm, Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import cn from 'classnames';
-import { FloatingLabel } from 'react-bootstrap';
 import Alert from 'react-bootstrap/Alert';
 import Form from 'react-bootstrap/Form';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -10,6 +8,7 @@ import validators from '../validators.js';
 import useHttp from '../hooks/useHttp.js';
 import routes from '../routes.js';
 import { authContext } from '../context/authContext.jsx';
+import FieldLabel from './FieldLabel.jsx';
 
 const LoginForm = () => {
   const {
@@ -73,44 +72,24 @@ const LoginForm = () => {
                   <Form.Group>
                     {httpError && <Alert variant="danger">{t(getErrorLabel())}</Alert>}
                   </Form.Group>
-                  <Form.Group className="mb-3">
-                    <FloatingLabel>
-                      <Field
-                        type="text"
-                        id="username"
-                        name="username"
-                        value={values.username}
-                        placeholder={t('label.username')}
-                        className={cn({
-                          'form-control': true,
-                          'is-invalid': touched.username && !!errors.username,
-                        })}
-                      />
-                      <label htmlFor="username">{t('label.username')}</label>
-                      <div className="invalid-tooltip">
-                        {t(errors.username)}
-                      </div>
-                    </FloatingLabel>
-                  </Form.Group>
-                  <Form.Group className="mb-3">
-                    <FloatingLabel>
-                      <Field
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={values.password}
-                        placeholder={t('label.password')}
-                        className={cn({
-                          'form-control': true,
-                          'is-invalid': touched.password && !!errors.password,
-                        })}
-                      />
-                      <label htmlFor="password">{t('label.password')}</label>
-                      <div className="invalid-tooltip">
-                        {t(errors.password)}
-                      </div>
-                    </FloatingLabel>
-                  </Form.Group>
+                  <FieldLabel
+                    type="text"
+                    id="username"
+                    name="username"
+                    value={values.username}
+                    isInvalid={touched.username && !!errors.username}
+                    error={t(errors.username)}
+                    label={t('label.username')}
+                  />
+                  <FieldLabel
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={values.password}
+                    isInvalid={touched.password && !!errors.password}
+                    error={t(errors.password)}
+                    label={t('label.password')}
+                  />
                   <button
                     type="submit"
                     disabled={isSubmitting}
