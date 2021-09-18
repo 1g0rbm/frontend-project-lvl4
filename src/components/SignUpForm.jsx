@@ -88,8 +88,8 @@ const SignUpForm = () => {
                     label={t('label.password')}
                   />
                   <FieldLabel
-                    type="passwordConfirmation"
-                    id="password"
+                    type="password"
+                    id="passwordConfirmation"
                     name="passwordConfirmation"
                     value={values.passwordConfirmation}
                     isInvalid={touched.passwordConfirmation && !!errors.passwordConfirmation}
