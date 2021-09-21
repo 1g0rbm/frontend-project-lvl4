@@ -7,7 +7,7 @@ const ru = {
     button: {
       cancel: 'Отмена',
       delete: 'Удалить',
-      rename: 'Отправить',
+      rename: 'Переименовать',
       logout: 'Выйти',
       login: 'Войти',
       signup: 'Зарегистрироваться',
