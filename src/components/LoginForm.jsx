@@ -1,14 +1,16 @@
-import React, { useContext } from 'react';
+import React, {
+  useContext, useEffect, useRef,
+} from 'react';
 import { Form as FormikForm, Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import Alert from 'react-bootstrap/Alert';
-import Form from 'react-bootstrap/Form';
 import { useHistory, useLocation } from 'react-router-dom';
 import validators from '../validators.js';
 import useHttp from '../hooks/useHttp.js';
 import routes from '../routes.js';
 import { authContext } from '../context/authContext.jsx';
 import FieldLabel from './FieldLabel.jsx';
+import useSetFocus from '../hooks/useSetFocus.js';
 
 const LoginForm = () => {
   const {
@@ -19,6 +21,10 @@ const LoginForm = () => {
   const location = useLocation();
   const { from } = location.state || { from: { pathname: '/' } };
   const { t } = useTranslation();
+  const focusRef = useRef({});
+  const { setFocusOn, handleFormikForm } = useSetFocus(focusRef);
+
+  useEffect(() => setFocusOn('username'));
 
   const signUpHandler = (e) => {
     e.preventDefault();
@@ -59,9 +65,9 @@ const LoginForm = () => {
             <Formik
               initialValues={{ username: '', password: '' }}
               validationSchema={validators.loginForm}
-              onSubmit={({ username, password }, bag) => {
+              onSubmit={({ username, password }, { setSubmitting }) => {
                 clearHttpError();
-                bag.setSubmitting(false);
+                setSubmitting(false);
                 loginHandler(username, password);
               }}
             >
@@ -69,9 +75,7 @@ const LoginForm = () => {
                 isSubmitting, values, touched, errors,
               }) => (
                 <FormikForm>
-                  <Form.Group>
-                    {httpError && <Alert variant="danger">{t(getErrorLabel())}</Alert>}
-                  </Form.Group>
+                  {httpError && <Alert variant="danger">{t(getErrorLabel())}</Alert>}
                   <FieldLabel
                     type="text"
                     id="username"
@@ -80,6 +84,9 @@ const LoginForm = () => {
                     isInvalid={touched.username && !!errors.username}
                     error={t(errors.username)}
                     label={t('label.username')}
+                    ref={(el) => {
+                      focusRef.current.username = el;
+                    }}
                   />
                   <FieldLabel
                     type="password"
@@ -89,11 +96,15 @@ const LoginForm = () => {
                     isInvalid={touched.password && !!errors.password}
                     error={t(errors.password)}
                     label={t('label.password')}
+                    ref={(el) => {
+                      focusRef.current.password = el;
+                    }}
                   />
                   <button
                     type="submit"
                     disabled={isSubmitting}
                     className="w-100 mb-3 btn btn-lg btn-outline-primary"
+                    onClick={() => handleFormikForm(values, errors, isSubmitting)}
                   >
                     {t('button.login')}
                   </button>

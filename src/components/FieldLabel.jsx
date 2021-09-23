@@ -11,6 +11,7 @@ const FieldLabel = forwardRef(({
   label,
   isInvalid,
   error,
+  autoFocus = false,
   testid = null,
 }, ref) => (
   <Form.Group className="mb-3">
@@ -27,6 +28,7 @@ const FieldLabel = forwardRef(({
         })}
         data-testid={testid}
         innerRef={ref}
+        autoFocus={autoFocus}
       />
       <label htmlFor={id}>{label}</label>
       <div className="invalid-tooltip">

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Formik, Form as FormikForm } from 'formik';
 import { Alert, Button, Form } from 'react-bootstrap';
@@ -8,6 +8,7 @@ import useHttp from '../hooks/useHttp';
 import routes from '../routes.js';
 import { authContext } from '../context/authContext.jsx';
 import FieldLabel from './FieldLabel.jsx';
+import useSetFocus from '../hooks/useSetFocus';
 
 const SignUpForm = () => {
   const {
@@ -16,6 +17,10 @@ const SignUpForm = () => {
   const auth = useContext(authContext);
   const history = useHistory();
   const { t } = useTranslation();
+  const focusRef = useRef({});
+  const { setFocusOn, handleFormikForm } = useSetFocus(focusRef);
+
+  useEffect(() => setFocusOn('username'));
 
   const loginUpHandler = (e) => {
     e.preventDefault();
@@ -77,6 +82,9 @@ const SignUpForm = () => {
                     isInvalid={touched.username && !!errors.username}
                     error={t(errors.username)}
                     label={t('label.regUsername')}
+                    ref={(el) => {
+                      focusRef.current.username = el;
+                    }}
                   />
                   <FieldLabel
                     type="password"
@@ -86,6 +94,9 @@ const SignUpForm = () => {
                     isInvalid={touched.password && !!errors.password}
                     error={t(errors.password)}
                     label={t('label.password')}
+                    ref={(el) => {
+                      focusRef.current.password = el;
+                    }}
                   />
                   <FieldLabel
                     type="password"
@@ -95,12 +106,16 @@ const SignUpForm = () => {
                     isInvalid={touched.passwordConfirmation && !!errors.passwordConfirmation}
                     error={t(errors.passwordConfirmation)}
                     label={t('label.passwordConfirm')}
+                    ref={(el) => {
+                      focusRef.current.passwordConfirmation = el;
+                    }}
                   />
                   <Button
                     type="submit"
                     variant="light"
                     className="w-100 mb-3 btn btn-lg btn-outline-primary"
                     disabled={isSubmitting}
+                    onClick={() => handleFormikForm(values, errors, isSubmitting)}
                   >
                     {t('button.signup')}
                   </Button>
