@@ -9,7 +9,7 @@ import useSocket from '../../hooks/useSocket.js';
 
 const DeleteChannelConfirmation = ({ hide, data }) => {
   const { t } = useTranslation();
-  const { emit } = useSocket();
+  const { emitRemoveChannel } = useSocket();
   const dispatch = useDispatch();
   const [formError, setError] = useState(null);
   const onHide = () => dispatch(hide());
@@ -24,18 +24,15 @@ const DeleteChannelConfirmation = ({ hide, data }) => {
           initialValues={{}}
           onSubmit={(value, { setSubmitting }) => {
             setSubmitting(true);
-            emit(
-              'removeChannel',
-              data.channel,
-              () => {
+            emitRemoveChannel(data.channel)
+              .then(() => {
                 setSubmitting(false);
                 onHide();
-              },
-              () => {
+              })
+              .catch(() => {
                 setSubmitting(false);
                 setError('error.network');
-              },
-            );
+              });
           }}
         >
           {({ isSubmitting }) => (

@@ -14,26 +14,25 @@ const MessageForm = () => {
   const { t } = useTranslation();
   const { currentChannelId } = useSelector(({ channelsData }) => channelsData);
   const { username } = useContext(authContext);
-  const { emit } = useSocket();
+  const { emitNewMessage } = useSocket();
   const inputRef = useRef(null);
   const [error, setError] = useState(null);
 
   const handleSubmit = ({ text }, { setSubmitting, resetForm }) => {
     setSubmitting(true);
-    emit(
-      'newMessage',
+    emitNewMessage(
       { author: username, channelId: currentChannelId, text },
-      () => {
+    )
+      .then(() => {
         setSubmitting(false);
         resetForm();
         inputRef.current?.focus();
-      },
-      () => {
+      })
+      .catch(() => {
         setSubmitting(false);
         inputRef.current?.focus();
         setError('error.network');
-      },
-    );
+      });
   };
 
   useEffect(() => {

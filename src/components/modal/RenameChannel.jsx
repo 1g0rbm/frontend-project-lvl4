@@ -13,7 +13,7 @@ const RenameChannel = ({ hide, data }) => {
   const { t } = useTranslation();
   const { channels } = useSelector(({ channelsData }) => channelsData);
   const inputRef = useRef(null);
-  const { emit } = useSocket();
+  const { emitRenameChannel } = useSocket();
   const dispatch = useDispatch();
   const [formError, setError] = useState(null);
   const onHide = () => dispatch(hide());
@@ -32,19 +32,16 @@ const RenameChannel = ({ hide, data }) => {
           initialValues={{ name: data.channel.name }}
           onSubmit={({ name }, { setSubmitting }) => {
             setSubmitting(true);
-            emit(
-              'renameChannel',
-              { ...data.channel, name },
-              () => {
+            emitRenameChannel({ ...data.channel, name })
+              .then(() => {
                 setSubmitting(false);
                 onHide();
-              },
-              () => {
+              })
+              .catch(() => {
                 setSubmitting(false);
                 inputRef.current?.focus();
                 setError('error.network');
-              },
-            );
+              });
           }}
           validationSchema={() => validators.addChannelForm(
             channels.map((channel) => channel.name),

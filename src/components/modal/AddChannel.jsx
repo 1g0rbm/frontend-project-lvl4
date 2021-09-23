@@ -16,7 +16,7 @@ const AddChannel = ({ hide }) => {
   const { t } = useTranslation();
   const { channels } = useSelector(({ channelsData }) => channelsData);
   const inputRef = useRef(null);
-  const { emit } = useSocket();
+  const { emitNewChannel } = useSocket();
   const dispatch = useDispatch();
   const [formError, setError] = useState(null);
   const { username } = useContext(authContext);
@@ -36,19 +36,16 @@ const AddChannel = ({ hide }) => {
           initialValues={{ name: '' }}
           onSubmit={({ name }, { setSubmitting }) => {
             setSubmitting(true);
-            emit(
-              'newChannel',
-              { name, owner: username },
-              () => {
+            emitNewChannel({ name, owner: username })
+              .then(() => {
                 setSubmitting(false);
                 onHide();
-              },
-              () => {
+              })
+              .catch(() => {
                 setSubmitting(false);
                 inputRef.current?.focus();
                 setError('error.network');
-              },
-            );
+              });
           }}
           validationSchema={() => validators.addChannelForm(
             channels.map((channel) => channel.name),
