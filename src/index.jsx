@@ -10,12 +10,14 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-init(io())
-  .then((vdom) => {
-    ReactDOM.render(
-      vdom,
-      document.getElementById('chat'),
-    );
-  });
+const run = async () => {
+  const vdom = await init(io());
+  ReactDOM.render(
+    vdom,
+    document.getElementById('chat'),
+  );
 
-console.log('it works!');
+  console.log('it works!');
+};
+
+run();
