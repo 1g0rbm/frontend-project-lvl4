@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Formik, Form as FormikForm } from 'formik';
 import { Alert, Button, Form } from 'react-bootstrap';
@@ -6,15 +6,15 @@ import { useTranslation } from 'react-i18next';
 import validators from '../validators';
 import useHttp from '../hooks/useHttp';
 import routes from '../routes.js';
-import { authContext } from '../context/authContext.jsx';
 import FieldLabel from './FieldLabel.jsx';
 import useSetFocus from '../hooks/useSetFocus';
+import useAuth from '../hooks/useAuth';
 
 const SignUpForm = () => {
   const {
     request, clearHttpError, httpError, responseCode,
   } = useHttp();
-  const auth = useContext(authContext);
+  const { login } = useAuth();
   const history = useHistory();
   const { t } = useTranslation();
   const focusRef = useRef({});
@@ -38,7 +38,7 @@ const SignUpForm = () => {
       return;
     }
 
-    auth.login(data.token, data.username);
+    login(data.token, data.username);
     history.replace(routes.mainPage());
   };
 

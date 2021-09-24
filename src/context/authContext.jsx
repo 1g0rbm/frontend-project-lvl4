@@ -6,8 +6,9 @@ const storageKey = 'userData';
 const authContext = createContext({
   token: null,
   username: null,
-  login: noop,
   isAuth: false,
+  login: noop,
+  logout: noop,
 });
 
 const useAuth = () => {

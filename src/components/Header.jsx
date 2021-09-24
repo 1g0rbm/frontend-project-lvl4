@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Button, Container, Navbar } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useHistory, Link } from 'react-router-dom';
-import { authContext } from '../context/authContext.jsx';
+import useAuth from '../hooks/useAuth.js';
 import routes from '../routes.js';
 
 const Header = () => {
-  const { logout, isAuth } = useContext(authContext);
+  const { logout, isAuth } = useAuth();
   const history = useHistory();
   const { t } = useTranslation();
 

@@ -1,13 +1,13 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setInitialState } from '../slices/channelsDataSlice.js';
-import { authContext } from '../context/authContext.jsx';
 import useHttp from '../hooks/useHttp.js';
 import Sidebar from './Sidebar.jsx';
 import Messages from './Messages.jsx';
+import useAuth from '../hooks/useAuth.js';
 
 const Chat = () => {
-  const auth = useContext(authContext);
+  const { token } = useAuth();
   const dispatch = useDispatch();
   const { request } = useHttp();
 
@@ -17,12 +17,12 @@ const Chat = () => {
       'GET',
       null,
       {
-        Authorization: `Bearer ${auth.token}`,
+        Authorization: `Bearer ${token}`,
       },
     );
 
     dispatch(setInitialState(initialData));
-  }, [request, dispatch, setInitialState, auth]);
+  }, [request, dispatch, setInitialState, token]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">

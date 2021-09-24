@@ -1,6 +1,4 @@
-import React, {
-  useRef, useEffect, useState, useContext,
-} from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import {
   Alert, Button, Form, Modal,
 } from 'react-bootstrap';
@@ -9,8 +7,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import validators from '../../validators.js';
 import useSocket from '../../hooks/useSocket.js';
-import { authContext } from '../../context/authContext.jsx';
 import FieldLabel from '../FieldLabel.jsx';
+import useAuth from '../../hooks/useAuth.js';
 
 const AddChannel = ({ hide }) => {
   const { t } = useTranslation();
@@ -19,7 +17,7 @@ const AddChannel = ({ hide }) => {
   const { emitNewChannel } = useSocket();
   const dispatch = useDispatch();
   const [formError, setError] = useState(null);
-  const { username } = useContext(authContext);
+  const { username } = useAuth();
   const onHide = () => dispatch(hide());
 
   useEffect(() => {

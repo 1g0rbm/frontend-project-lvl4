@@ -1,6 +1,4 @@
-import React, {
-  useContext, useEffect, useRef,
-} from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Form as FormikForm, Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import Alert from 'react-bootstrap/Alert';
@@ -11,12 +9,13 @@ import routes from '../routes.js';
 import { authContext } from '../context/authContext.jsx';
 import FieldLabel from './FieldLabel.jsx';
 import useSetFocus from '../hooks/useSetFocus.js';
+import useAuth from '../hooks/useAuth.js';
 
 const LoginForm = () => {
   const {
     request, clearHttpError, httpError, responseCode,
   } = useHttp();
-  const auth = useContext(authContext);
+  const { login } = useAuth(authContext);
   const history = useHistory();
   const location = useLocation();
   const { from } = location.state || { from: { pathname: '/' } };
@@ -42,7 +41,7 @@ const LoginForm = () => {
       return;
     }
 
-    auth.login(data.token, data.username);
+    login(data.token, data.username);
     history.replace(from);
   };
 
