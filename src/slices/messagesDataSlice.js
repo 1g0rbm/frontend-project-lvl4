@@ -1,20 +1,20 @@
 /* eslint-disable no-param-reassign, */
 import { createSelector, createSlice } from '@reduxjs/toolkit';
-import { removeChannel } from './channelsDataSlice.js';
+import { setInitialState, removeChannel } from './channelsDataSlice.js';
 
 const messagesData = createSlice({
   name: 'messagesData',
   initialState: { messages: [] },
   reducers: {
-    setInitialState: (state, { payload }) => {
-      state.messages = payload.messages;
-    },
     newMessage: (state, { payload }) => {
       state.messages.push(payload);
     },
   },
   extraReducers: (builder) => {
     builder
+      .addCase(setInitialState, (state, { payload: { messages } }) => {
+        state.messages = messages;
+      })
       .addCase(removeChannel, (state, { payload: { id } }) => {
         state.messages = state.messages.filter(({ channelId }) => channelId !== id);
       });
@@ -22,7 +22,6 @@ const messagesData = createSlice({
 });
 
 export const {
-  setInitialState,
   newMessage,
 } = messagesData.actions;
 

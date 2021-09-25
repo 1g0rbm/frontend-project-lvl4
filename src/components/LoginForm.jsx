@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Form as FormikForm, Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import Alert from 'react-bootstrap/Alert';
 import { useHistory, useLocation } from 'react-router-dom';
+import axios from 'axios';
 import validators from '../validators.js';
-import useHttp from '../hooks/useHttp.js';
 import routes from '../routes.js';
 import { authContext } from '../context/authContext.jsx';
 import FieldLabel from './FieldLabel.jsx';
@@ -12,9 +12,6 @@ import useSetFocus from '../hooks/useSetFocus.js';
 import useAuth from '../hooks/useAuth.js';
 
 const LoginForm = () => {
-  const {
-    request, clearHttpError, httpError, responseCode,
-  } = useHttp();
   const { login } = useAuth(authContext);
   const history = useHistory();
   const location = useLocation();
@@ -22,6 +19,7 @@ const LoginForm = () => {
   const { t } = useTranslation();
   const focusRef = useRef({});
   const { setFocusOn, handleFormikForm } = useSetFocus(focusRef);
+  const [formError, setFormError] = useState(null);
 
   useEffect(() => setFocusOn('username'));
 
@@ -31,26 +29,19 @@ const LoginForm = () => {
   };
 
   const loginHandler = async (username, password) => {
-    const data = await request(
-      routes.loginPath(),
-      'POST',
-      { username, password },
-    );
+    try {
+      const { data } = await axios.request({
+        url: routes.loginPath(),
+        method: 'POST',
+        data: { username, password },
+      });
 
-    if (data === null) {
-      return;
+      login(data.token, data.username);
+      history.replace(from);
+    } catch (e) {
+      const { response: { status } } = e;
+      setFormError(status === 401 ? 'error.unauthorized' : 'error.unknown');
     }
-
-    login(data.token, data.username);
-    history.replace(from);
-  };
-
-  const getErrorLabel = () => {
-    if (responseCode === 401) {
-      return 'error.unauthorized';
-    }
-
-    return 'error.unknown';
   };
 
   return (
@@ -65,7 +56,6 @@ const LoginForm = () => {
               initialValues={{ username: '', password: '' }}
               validationSchema={validators.loginForm}
               onSubmit={({ username, password }, { setSubmitting }) => {
-                clearHttpError();
                 setSubmitting(false);
                 loginHandler(username, password);
               }}
@@ -74,7 +64,7 @@ const LoginForm = () => {
                 isSubmitting, values, touched, errors,
               }) => (
                 <FormikForm>
-                  {httpError && <Alert variant="danger">{t(getErrorLabel())}</Alert>}
+                  {formError && <Alert variant="danger">{t(formError)}</Alert>}
                   <FieldLabel
                     type="text"
                     id="username"

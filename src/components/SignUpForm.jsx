@@ -1,24 +1,22 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Formik, Form as FormikForm } from 'formik';
 import { Alert, Button, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 import validators from '../validators';
-import useHttp from '../hooks/useHttp';
 import routes from '../routes.js';
 import FieldLabel from './FieldLabel.jsx';
 import useSetFocus from '../hooks/useSetFocus';
 import useAuth from '../hooks/useAuth';
 
 const SignUpForm = () => {
-  const {
-    request, clearHttpError, httpError, responseCode,
-  } = useHttp();
   const { login } = useAuth();
   const history = useHistory();
   const { t } = useTranslation();
   const focusRef = useRef({});
   const { setFocusOn, handleFormikForm } = useSetFocus(focusRef);
+  const [formError, setFormError] = useState(null);
 
   useEffect(() => setFocusOn('username'));
 
@@ -28,26 +26,19 @@ const SignUpForm = () => {
   };
 
   const signupHandler = async (username, password) => {
-    const data = await request(
-      routes.signupPath(),
-      'POST',
-      { username, password },
-    );
+    try {
+      const { data } = await axios.request({
+        url: routes.signupPath(),
+        method: 'POST',
+        data: { username, password },
+      });
 
-    if (data === null) {
-      return;
+      login(data.token, data.username);
+      history.replace(routes.mainPage());
+    } catch (e) {
+      const { response: { status } } = e;
+      setFormError(status === 409 ? 'error.usernameAlreadyExisted' : 'error.unknown');
     }
-
-    login(data.token, data.username);
-    history.replace(routes.mainPage());
-  };
-
-  const getErrorLabel = () => {
-    if (responseCode === 409) {
-      return 'error.usernameAlreadyExisted';
-    }
-
-    return 'error.unknown';
   };
 
   return (
@@ -63,7 +54,6 @@ const SignUpForm = () => {
               validationSchema={validators.signupForm}
               onSubmit={({ username, password }, { setSubmitting }) => {
                 setSubmitting(false);
-                clearHttpError();
                 signupHandler(username, password);
               }}
             >
@@ -72,7 +62,7 @@ const SignUpForm = () => {
               }) => (
                 <FormikForm>
                   <Form.Group>
-                    {httpError && <Alert variant="danger">{t(getErrorLabel())}</Alert>}
+                    {formError && <Alert variant="danger">{t(formError)}</Alert>}
                   </Form.Group>
                   <FieldLabel
                     type="text"

@@ -1,28 +1,25 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
 import { setInitialState } from '../slices/channelsDataSlice.js';
-import useHttp from '../hooks/useHttp.js';
 import Sidebar from './Sidebar.jsx';
 import Messages from './Messages.jsx';
 import useAuth from '../hooks/useAuth.js';
+import routes from '../routes.js';
 
 const Chat = () => {
   const { token } = useAuth();
   const dispatch = useDispatch();
-  const { request } = useHttp();
 
   useEffect(async () => {
-    const initialData = await request(
-      '/api/v1/data',
-      'GET',
-      null,
-      {
-        Authorization: `Bearer ${token}`,
-      },
-    );
+    const { data } = await axios.request({
+      url: routes.dataPath(),
+      method: 'GET',
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
-    dispatch(setInitialState(initialData));
-  }, [request, dispatch, setInitialState, token]);
+    dispatch(setInitialState(data));
+  }, [dispatch, setInitialState, token]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
