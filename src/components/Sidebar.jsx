@@ -78,7 +78,7 @@ const Sidebar = () => {
     dispatch(showAddChannel());
   };
 
-  const { state, type, data } = useSelector(({ modalData }) => modalData);
+  const { type } = useSelector(({ modalData }) => modalData);
 
   return (
     <div className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
@@ -100,7 +100,7 @@ const Sidebar = () => {
         {channels}
       </Channels>
       )}
-      {type && <ChannelModal isOpen={state === 'show'} type={type} data={data} />}
+      {type && <ChannelModal />}
     </div>
   );
 };

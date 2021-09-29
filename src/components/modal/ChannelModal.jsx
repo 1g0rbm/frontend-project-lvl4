@@ -1,14 +1,15 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { hide } from '../../slices/modalDataSlice.js';
 import AddChannel from './AddChannel.jsx';
 import DeleteChannelConfirmation from './DeleteChannelConfirmation.jsx';
 import RenameChannel from './RenameChannel.jsx';
 
-const ChannelModal = ({ isOpen, type, data }) => {
+const ChannelModal = () => {
   const dispatch = useDispatch();
   const onHide = () => dispatch(hide());
+  const { data, state, type } = useSelector(({ modalData }) => modalData);
 
   const modals = {
     addChannel: <AddChannel hide={onHide} />,
@@ -17,7 +18,7 @@ const ChannelModal = ({ isOpen, type, data }) => {
   };
 
   return (
-    <Modal show={isOpen} centered onHide={onHide}>
+    <Modal show={state === 'show'} centered onHide={onHide}>
       {modals[type]}
     </Modal>
   );
