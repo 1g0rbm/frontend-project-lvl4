@@ -1,5 +1,4 @@
 import React, { forwardRef } from 'react';
-import { Field } from 'formik';
 import { Form } from 'react-bootstrap';
 import cn from 'classnames';
 
@@ -11,12 +10,12 @@ const FieldLabel = forwardRef(({
   label,
   isInvalid,
   error,
-  autoFocus = false,
+  onChange,
   testid = null,
 }, ref) => (
   <Form.Group className="mb-3">
     <div className="form-floating mb-3">
-      <Field
+      <Form.Control
         id={id}
         type={type}
         name={name}
@@ -27,8 +26,8 @@ const FieldLabel = forwardRef(({
           'is-invalid': isInvalid,
         })}
         data-testid={testid}
-        innerRef={ref}
-        autoFocus={autoFocus}
+        ref={ref}
+        onChange={onChange}
       />
       <label htmlFor={id}>{label}</label>
       <div className="invalid-tooltip">
