@@ -14,7 +14,7 @@ const Chat = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  useEffect(() => async () => {
+  useEffect(() => {
     // eslint-disable-next-line functional/no-let
     let isActive = true;
 
