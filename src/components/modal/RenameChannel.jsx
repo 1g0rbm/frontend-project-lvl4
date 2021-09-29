@@ -3,7 +3,7 @@ import {
   Alert, Button, Form, Modal,
 } from 'react-bootstrap';
 import { Formik, Form as FormikForm } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import validators from '../../validators.js';
 import useSocket from '../../hooks/useSocket.js';
@@ -14,9 +14,7 @@ const RenameChannel = ({ hide, data }) => {
   const { channels } = useSelector(({ channelsData }) => channelsData);
   const inputRef = useRef(null);
   const { emitRenameChannel } = useSocket();
-  const dispatch = useDispatch();
   const [formError, setError] = useState(null);
-  const onHide = () => dispatch(hide());
 
   useEffect(() => {
     inputRef.current.focus();
@@ -35,7 +33,7 @@ const RenameChannel = ({ hide, data }) => {
             emitRenameChannel({ ...data.channel, name })
               .then(() => {
                 setSubmitting(false);
-                onHide();
+                hide();
               })
               .catch(() => {
                 setSubmitting(false);

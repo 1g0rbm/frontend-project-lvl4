@@ -3,7 +3,7 @@ import {
   Alert, Button, Form, Modal,
 } from 'react-bootstrap';
 import { Formik, Form as FormikForm } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import validators from '../../validators.js';
 import useSocket from '../../hooks/useSocket.js';
@@ -15,10 +15,8 @@ const AddChannel = ({ hide }) => {
   const { channels } = useSelector(({ channelsData }) => channelsData);
   const inputRef = useRef(null);
   const { emitNewChannel } = useSocket();
-  const dispatch = useDispatch();
   const [formError, setError] = useState(null);
   const { username } = useAuth();
-  const onHide = () => dispatch(hide());
 
   useEffect(() => {
     inputRef.current.focus();
@@ -37,7 +35,7 @@ const AddChannel = ({ hide }) => {
             emitNewChannel({ name, owner: username })
               .then(() => {
                 setSubmitting(false);
-                onHide();
+                hide();
               })
               .catch(() => {
                 setSubmitting(false);

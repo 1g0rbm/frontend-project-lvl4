@@ -4,15 +4,12 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { Formik, Form as FormikForm } from 'formik';
-import { useDispatch } from 'react-redux';
 import useSocket from '../../hooks/useSocket.js';
 
 const DeleteChannelConfirmation = ({ hide, data }) => {
   const { t } = useTranslation();
   const { emitRemoveChannel } = useSocket();
-  const dispatch = useDispatch();
   const [formError, setError] = useState(null);
-  const onHide = () => dispatch(hide());
 
   return (
     <>
@@ -27,7 +24,7 @@ const DeleteChannelConfirmation = ({ hide, data }) => {
             emitRemoveChannel(data.channel)
               .then(() => {
                 setSubmitting(false);
-                onHide();
+                hide();
               })
               .catch(() => {
                 setSubmitting(false);
