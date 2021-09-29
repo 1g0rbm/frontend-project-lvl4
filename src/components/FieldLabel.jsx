@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { Field } from 'formik';
-import { FloatingLabel, Form } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import cn from 'classnames';
 
 const FieldLabel = forwardRef(({
@@ -15,7 +15,7 @@ const FieldLabel = forwardRef(({
   testid = null,
 }, ref) => (
   <Form.Group className="mb-3">
-    <FloatingLabel>
+    <div className="form-floating mb-3">
       <Field
         id={id}
         type={type}
@@ -34,7 +34,7 @@ const FieldLabel = forwardRef(({
       <div className="invalid-tooltip">
         {error}
       </div>
-    </FloatingLabel>
+    </div>
   </Form.Group>
 ));
 

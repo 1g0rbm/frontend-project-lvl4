@@ -9,7 +9,16 @@ const ErrorCard = ({ id, text }) => {
   setTimeout(() => dispatch(remove(id)), 5000);
 
   return (
-    <Alert variant="danger" onClose={() => dispatch(remove(id))} dismissible>{text}</Alert>
+    <Alert className="alert-dismissible fade show" variant="danger">
+      {text}
+      <button
+        type="button"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+        className="btn-close btn-sm shadow-none"
+        onClick={() => dispatch(remove(id))}
+      />
+    </Alert>
   );
 };
 
