@@ -8,10 +8,12 @@ export default () => {
 
   const emit = (channel, message) => (
     new Promise((resolve, reject) => {
+      const timerId = setTimeout(reject, TIMEOUT);
       socket.volatile.emit(
         channel,
         message,
         (response) => {
+          clearInterval(timerId);
           if (response.status === 'ok') {
             resolve();
           } else {
@@ -19,8 +21,6 @@ export default () => {
           }
         },
       );
-
-      setTimeout(reject, TIMEOUT);
     })
   );
 
