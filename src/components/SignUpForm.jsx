@@ -1,14 +1,16 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Formik, Form as FormikForm } from 'formik';
-import { Alert, Button, Form } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import validators from '../validators';
 import routes from '../routes.js';
 import FieldLabel from './FieldLabel.jsx';
-import useSetFocus from '../hooks/useSetFocus';
-import useAuth from '../hooks/useAuth';
+import useSetFocus from '../hooks/useSetFocus.js';
+import useAuth from '../hooks/useAuth.js';
+import { pushError } from '../slices/errorsDataSlice.js';
 
 const SignUpForm = () => {
   const { login } = useAuth();
@@ -16,7 +18,7 @@ const SignUpForm = () => {
   const { t } = useTranslation();
   const focusRef = useRef({});
   const { setFocusOn, handleFormikForm } = useSetFocus(focusRef);
-  const [formError, setFormError] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => setFocusOn('username'));
 
@@ -37,7 +39,11 @@ const SignUpForm = () => {
       history.replace(routes.mainPage());
     } catch (e) {
       const { response: { status } } = e;
-      setFormError(status === 409 ? 'error.usernameAlreadyExisted' : 'error.unknown');
+      setFocusOn('username');
+      dispatch(pushError({
+        type: 'signup',
+        text: t(status === 409 ? 'error.usernameAlreadyExisted' : 'error.unknown'),
+      }));
     }
   };
 
@@ -61,9 +67,6 @@ const SignUpForm = () => {
                 isSubmitting, values, touched, errors,
               }) => (
                 <FormikForm>
-                  <Form.Group>
-                    {formError && <Alert variant="danger">{t(formError)}</Alert>}
-                  </Form.Group>
                   <FieldLabel
                     type="text"
                     id="username"

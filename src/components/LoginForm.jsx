@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Form as FormikForm, Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import Alert from 'react-bootstrap/Alert';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import validators from '../validators.js';
 import routes from '../routes.js';
@@ -10,6 +10,7 @@ import { authContext } from '../context/authContext.jsx';
 import FieldLabel from './FieldLabel.jsx';
 import useSetFocus from '../hooks/useSetFocus.js';
 import useAuth from '../hooks/useAuth.js';
+import { pushError } from '../slices/errorsDataSlice.js';
 
 const LoginForm = () => {
   const { login } = useAuth(authContext);
@@ -19,7 +20,7 @@ const LoginForm = () => {
   const { t } = useTranslation();
   const focusRef = useRef({});
   const { setFocusOn, handleFormikForm } = useSetFocus(focusRef);
-  const [formError, setFormError] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => setFocusOn('username'));
 
@@ -40,7 +41,11 @@ const LoginForm = () => {
       history.replace(from);
     } catch (e) {
       const { response: { status } } = e;
-      setFormError(status === 401 ? 'error.unauthorized' : 'error.unknown');
+      setFocusOn('username');
+      dispatch(pushError({
+        type: 'login',
+        text: t(status === 401 ? 'error.unauthorized' : 'error.unknown'),
+      }));
     }
   };
 
@@ -64,7 +69,6 @@ const LoginForm = () => {
                 isSubmitting, values, touched, errors,
               }) => (
                 <FormikForm>
-                  {formError && <Alert variant="danger">{t(formError)}</Alert>}
                   <FieldLabel
                     type="text"
                     id="username"

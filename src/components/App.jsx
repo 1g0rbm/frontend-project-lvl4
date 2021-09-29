@@ -8,6 +8,7 @@ import PrivateRoute from './PrivateRoute.jsx';
 import Header from './Header.jsx';
 import SignUpForm from './SignUpForm.jsx';
 import routes from '../routes.js';
+import Errors from './Errors.jsx';
 
 const App = () => {
   const { state } = useSelector(({ modalData }) => modalData);
@@ -16,6 +17,7 @@ const App = () => {
     <BrowserRouter>
       <div aria-hidden={state === 'show'} className="d-flex flex-column h-100">
         <Header />
+        <Errors />
         <Switch>
           <Route path={routes.loginPage()} render={() => <LoginForm />} />
           <Route path={routes.signupPage()} render={() => <SignUpForm />} />

@@ -13,6 +13,7 @@ import channelsDataReducer, {
 } from './slices/channelsDataSlice.js';
 import messagesDataReducer, { newMessage } from './slices/messagesDataSlice.js';
 import modalDataReducer from './slices/modalDataSlice.js';
+import errorsDataReducer from './slices/errorsDataSlice.js';
 import rollbarConfig from './rollbar.js';
 import resources from './locales/index.js';
 import Error404 from './components/Error404.jsx';
@@ -24,6 +25,7 @@ export default async (socket) => {
       channelsData: channelsDataReducer,
       messagesData: messagesDataReducer,
       modalData: modalDataReducer,
+      errorsData: errorsDataReducer,
     },
   });
 
