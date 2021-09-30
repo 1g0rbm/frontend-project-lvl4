@@ -15,6 +15,7 @@ const AddChannel = ({ hide }) => {
   const inputRef = useRef(null);
   const { emitNewChannel } = useSocket();
   const { username } = useAuth();
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: { name: '' },
     validationSchema: () => validators.addChannelForm(
@@ -30,7 +31,7 @@ const AddChannel = ({ hide }) => {
         .catch(() => {
           setSubmitting(false);
           inputRef.current?.focus();
-          useDispatch(pushError({
+          dispatch(pushError({
             type: 'modal',
             text: t('error.network'),
           }));

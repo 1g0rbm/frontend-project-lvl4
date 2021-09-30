@@ -39,7 +39,7 @@ const Chat = () => {
     return () => {
       isActive = false;
     };
-  }, [dispatch, setInitialState, token]);
+  }, [dispatch, t, setInitialState, token]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">

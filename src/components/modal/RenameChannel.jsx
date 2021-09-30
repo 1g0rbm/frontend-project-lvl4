@@ -13,6 +13,7 @@ const RenameChannel = ({ hide, data }) => {
   const { channels } = useSelector(({ channelsData }) => channelsData);
   const inputRef = useRef(null);
   const { emitRenameChannel } = useSocket();
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: { name: data.channel.name },
     validationSchema: () => validators.addChannelForm(
@@ -28,7 +29,7 @@ const RenameChannel = ({ hide, data }) => {
         .catch(() => {
           setSubmitting(false);
           inputRef.current?.focus();
-          useDispatch(pushError({
+          dispatch(pushError({
             type: 'modal',
             text: t('error.network'),
           }));

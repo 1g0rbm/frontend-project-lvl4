@@ -13,7 +13,7 @@ const Errors = () => {
       const { id } = errors[length - 1];
       dispatch(remove(id));
     }
-  }, [errors]);
+  }, [dispatch, errors]);
 
   return (
     <div className="error-container">

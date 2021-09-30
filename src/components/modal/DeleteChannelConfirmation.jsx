@@ -9,6 +9,7 @@ import { pushError } from '../../slices/errorsDataSlice.js';
 const DeleteChannelConfirmation = ({ hide, data }) => {
   const { t } = useTranslation();
   const { emitRemoveChannel } = useSocket();
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {},
     onSubmit: (value, { setSubmitting }) => {
