@@ -44,7 +44,7 @@ const SignUpForm = () => {
     },
   });
 
-  useEffect(() => setFocusOn('username'), [setFocusOn]);
+  useEffect(() => setFocusOn('username'), []);
 
   const loginUpHandler = (e) => {
     e.preventDefault();
