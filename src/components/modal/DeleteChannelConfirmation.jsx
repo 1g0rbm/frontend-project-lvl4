@@ -21,7 +21,7 @@ const DeleteChannelConfirmation = ({ hide, data }) => {
         })
         .catch(() => {
           setSubmitting(false);
-          useDispatch(pushError({
+          dispatch(pushError({
             type: 'modal',
             text: t('error.network'),
           }));
