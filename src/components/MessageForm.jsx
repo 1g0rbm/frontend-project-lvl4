@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Form as FormikForm, Formik } from 'formik';
+import { useFormik } from 'formik';
 import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
-import Alert from 'react-bootstrap/Alert';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useSocket from '../hooks/useSocket.js';
 import useAuth from '../hooks/useAuth.js';
+import { pushError } from '../slices/errorsDataSlice.js';
 
 const MessageForm = () => {
   const { t } = useTranslation();
@@ -14,24 +14,23 @@ const MessageForm = () => {
   const { username } = useAuth();
   const { emitNewMessage } = useSocket();
   const inputRef = useRef(null);
-  const [error, setError] = useState(null);
-
-  const handleSubmit = ({ text }, { setSubmitting, resetForm }) => {
-    setSubmitting(true);
-    emitNewMessage(
-      { author: username, channelId: currentChannelId, text },
-    )
-      .then(() => {
-        setSubmitting(false);
-        resetForm();
-        inputRef.current?.focus();
-      })
-      .catch(() => {
-        setSubmitting(false);
-        inputRef.current?.focus();
-        setError('error.network');
-      });
-  };
+  const dispatch = useDispatch();
+  const formik = useFormik({
+    initialValues: { text: '' },
+    onSubmit: ({ text }, { resetForm }) => (
+      emitNewMessage(
+        { author: username, channelId: currentChannelId, text },
+      )
+        .then(() => {
+          resetForm();
+          inputRef.current?.focus();
+        })
+        .catch(() => {
+          inputRef.current?.focus();
+          dispatch(pushError(t('error.network')));
+        })
+    ),
+  });
 
   useEffect(() => {
     inputRef.current.focus();
@@ -39,39 +38,29 @@ const MessageForm = () => {
 
   return (
     <div className="mt-auto px-5 py-3">
-      <Formik
-        initialValues={{ text: '' }}
-        onSubmit={handleSubmit}
-      >
-        {({ isSubmitting, values, handleChange }) => (
-          <FormikForm className="py-1 rounded-2">
-            <Form.Group>
-              {error && <Alert variant="danger">{t(error)}</Alert>}
-            </Form.Group>
-            <Form.Group className="input-group has-validation">
-              <Form.Control
-                onChange={handleChange}
-                type="text"
-                name="text"
-                placeholder={t('label.message')}
-                value={values.text}
-                className="p-0 ps-2 form-control"
-                ref={inputRef}
-                disabled={isSubmitting || !!error}
-                data-testid="new-message"
-              />
-              <Button
-                type="submit"
-                variant="light"
-                className="btn btn-outline-primary btn-group-vertical"
-                disabled={isSubmitting || !values.text || !!error}
-              >
-                {t('button.send')}
-              </Button>
-            </Form.Group>
-          </FormikForm>
-        )}
-      </Formik>
+      <Form className="py-1 rounded-2" onSubmit={formik.handleSubmit}>
+        <Form.Group className="input-group has-validation">
+          <Form.Control
+            onChange={formik.handleChange}
+            type="text"
+            name="text"
+            placeholder={t('label.message')}
+            value={formik.values.text}
+            className="p-0 ps-2 form-control"
+            ref={inputRef}
+            disabled={formik.isSubmitting || !formik.isValid}
+            data-testid="new-message"
+          />
+          <Button
+            type="submit"
+            variant="light"
+            className="btn btn-outline-primary btn-group-vertical"
+            disabled={formik.isSubmitting || !formik.dirty || !formik.isValid}
+          >
+            {t('button.send')}
+          </Button>
+        </Form.Group>
+      </Form>
     </div>
   );
 };
