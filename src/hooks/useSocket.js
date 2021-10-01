@@ -1,28 +1,49 @@
 import { useContext } from 'react';
 import { socketContext } from '../context/socketContext.jsx';
 
-const TIMEOUT = 2000;
-
 export default () => {
   const { socket } = useContext(socketContext);
 
-  const emit = (channel, message) => (
+  const acknowledgeWrap = (func) => {
+    const withTimeout = (onSuccess, onTimeout, timeout = 2000) => {
+      // eslint-disable-next-line functional/no-let
+      let called = false;
+
+      const timer = setTimeout(() => {
+        if (called) return;
+        called = true;
+        onTimeout();
+      }, timeout);
+
+      return (...args) => {
+        if (called) return;
+        called = true;
+        clearTimeout(timer);
+        onSuccess(args);
+      };
+    };
+
+    return func(withTimeout);
+  };
+
+  const emit = acknowledgeWrap((acknowledge) => (channel, message) => (
     new Promise((resolve, reject) => {
-      const timerId = setTimeout(reject, TIMEOUT);
       socket.volatile.emit(
         channel,
         message,
-        (response) => {
-          clearInterval(timerId);
-          if (response.status === 'ok') {
-            resolve();
-          } else {
-            reject();
-          }
-        },
+        acknowledge(
+          ([response]) => {
+            if (response.status === 'ok') {
+              resolve();
+            } else {
+              reject();
+            }
+          },
+          () => reject(),
+        ),
       );
     })
-  );
+  ));
 
   const emitNewMessage = (message) => emit('newMessage', message);
   const emitNewChannel = (message) => emit('newChannel', message);
