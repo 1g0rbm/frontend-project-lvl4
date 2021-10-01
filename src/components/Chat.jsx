@@ -10,7 +10,7 @@ import routes from '../routes.js';
 import { pushError } from '../slices/errorsDataSlice.js';
 
 const Chat = () => {
-  const { token } = useAuth();
+  const { getHeaders, token } = useAuth();
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -21,7 +21,7 @@ const Chat = () => {
     axios.request({
       url: routes.dataPath(),
       method: 'GET',
-      headers: { Authorization: `Bearer ${token}` },
+      headers: getHeaders(),
     })
       .then(({ data }) => {
         if (isActive) {

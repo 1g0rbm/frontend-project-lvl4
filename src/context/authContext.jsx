@@ -29,8 +29,12 @@ const useAuth = () => {
     localStorage.removeItem(storageKey);
   }, []);
 
+  const getHeaders = () => ({
+    Authorization: `Bearer ${token}`,
+  });
+
   return {
-    login, logout, token, username, isAuth: !!token,
+    login, logout, getHeaders, token, username, isAuth: !!token,
   };
 };
 
