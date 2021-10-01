@@ -15,6 +15,8 @@ const errorsData = createSlice({
   },
 });
 
+export const selectErrors = (state) => state.errorsData.errors;
+
 export const {
   pushError,
   remove,

@@ -7,10 +7,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import useSocket from '../hooks/useSocket.js';
 import useAuth from '../hooks/useAuth.js';
 import { pushError } from '../slices/errorsDataSlice.js';
+import { selectCurrentChannelId } from '../slices/channelsDataSlice.js';
 
 const MessageForm = () => {
   const { t } = useTranslation();
-  const { currentChannelId } = useSelector(({ channelsData }) => channelsData);
+  const currentChannelId = useSelector(selectCurrentChannelId);
   const { username } = useAuth();
   const { emitNewMessage } = useSocket();
   const inputRef = useRef(null);

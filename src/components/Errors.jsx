@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ErrorCard from './ErrorCard.jsx';
-import { remove } from '../slices/errorsDataSlice.js';
+import { selectErrors, remove } from '../slices/errorsDataSlice.js';
 
 const Errors = () => {
-  const { errors } = useSelector(({ errorsData }) => errorsData);
+  const errors = useSelector(selectErrors);
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import MessageForm from './MessageForm.jsx';
 import { selectActiveChannelMessages } from '../slices/messagesDataSlice.js';
+import { selectChannels, selectCurrentChannelId } from '../slices/channelsDataSlice.js';
 
 const Title = ({ channel, text }) => {
   if (!channel) {
@@ -39,7 +40,8 @@ const MessagesBox = ({ messages }) => (
 export default () => {
   const { t } = useTranslation();
   const messages = useSelector(selectActiveChannelMessages);
-  const { channels, currentChannelId } = useSelector(({ channelsData }) => channelsData);
+  const channels = useSelector(selectChannels);
+  const currentChannelId = useSelector(selectCurrentChannelId);
   const currentChannel = _.find(channels, { id: currentChannelId });
 
   return (

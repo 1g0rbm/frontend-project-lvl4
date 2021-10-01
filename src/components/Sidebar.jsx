@@ -2,8 +2,8 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { setCurrentChannelId } from '../slices/channelsDataSlice.js';
-import { showModal } from '../slices/modalDataSlice.js';
+import { setCurrentChannelId, selectChannels, selectCurrentChannelId } from '../slices/channelsDataSlice.js';
+import { showModal, selectType } from '../slices/modalDataSlice.js';
 import ChannelModal from './modal/ChannelModal.jsx';
 
 const ChannelItem = ({ changeChannel, channel, isCurrent }) => {
@@ -66,7 +66,8 @@ const Channels = ({ changeChannel, currentChannelId, children }) => (
 );
 
 const Sidebar = () => {
-  const { currentChannelId, channels } = useSelector(({ channelsData }) => channelsData);
+  const channels = useSelector(selectChannels);
+  const currentChannelId = useSelector(selectCurrentChannelId);
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -78,7 +79,7 @@ const Sidebar = () => {
     dispatch(showModal({ type: 'addChannel' }));
   };
 
-  const { type } = useSelector(({ modalData }) => modalData);
+  const type = useSelector(selectType);
 
   return (
     <div className="col-4 col-md-2 border-end pt-5 px-0 bg-light">

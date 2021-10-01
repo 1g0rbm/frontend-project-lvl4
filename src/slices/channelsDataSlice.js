@@ -38,6 +38,9 @@ const channelsData = createSlice({
   },
 });
 
+export const selectChannels = (state) => state.channelsData.channels;
+export const selectCurrentChannelId = (state) => state.channelsData.currentChannelId;
+
 export const {
   setInitialState,
   setCurrentChannelId,

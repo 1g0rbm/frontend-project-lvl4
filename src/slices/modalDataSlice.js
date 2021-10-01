@@ -20,6 +20,9 @@ const modalData = createSlice({
   },
 });
 
+export const selectType = (state) => state.modalData.type;
+export const selectModalData = (state) => state.modalData;
+
 export const {
   showModal,
   showAddChannel,

@@ -8,10 +8,11 @@ import useSocket from '../../hooks/useSocket.js';
 import FieldLabel from '../FieldLabel.jsx';
 import useAuth from '../../hooks/useAuth.js';
 import { pushError } from '../../slices/errorsDataSlice.js';
+import { selectChannels } from '../../slices/channelsDataSlice.js';
 
 const AddChannel = ({ hide }) => {
   const { t } = useTranslation();
-  const { channels } = useSelector(({ channelsData }) => channelsData);
+  const channels = useSelector(selectChannels);
   const inputRef = useRef(null);
   const { emitNewChannel } = useSocket();
   const { username } = useAuth();

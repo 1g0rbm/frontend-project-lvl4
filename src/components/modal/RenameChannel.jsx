@@ -7,10 +7,11 @@ import validators from '../../validators.js';
 import useSocket from '../../hooks/useSocket.js';
 import FieldLabel from '../FieldLabel.jsx';
 import { pushError } from '../../slices/errorsDataSlice.js';
+import { selectChannels } from '../../slices/channelsDataSlice.js';
 
 const RenameChannel = ({ hide, data }) => {
   const { t } = useTranslation();
-  const { channels } = useSelector(({ channelsData }) => channelsData);
+  const channels = useSelector(selectChannels);
   const inputRef = useRef(null);
   const { emitRenameChannel } = useSocket();
   const dispatch = useDispatch();
