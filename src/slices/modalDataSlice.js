@@ -16,20 +16,6 @@ const modalData = createSlice({
       state.type = type;
       state.data = { channel };
     },
-    showAddChannel: (state) => {
-      state.state = 'show';
-      state.type = 'addChannel';
-    },
-    showDeleteChannelConfirmation: (state, { payload: { channel } }) => {
-      state.state = 'show';
-      state.type = 'deleteChannelConfirmation';
-      state.data = { channel };
-    },
-    showRenameChanel: (state, { payload: { channel } }) => {
-      state.state = 'show';
-      state.type = 'renameChannel';
-      state.data = { channel };
-    },
     hide: () => initialState,
   },
 });
