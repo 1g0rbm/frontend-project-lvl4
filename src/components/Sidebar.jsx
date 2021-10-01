@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { setCurrentChannelId } from '../slices/channelsDataSlice.js';
-import { showAddChannel, showDeleteChannelConfirmation, showRenameChanel } from '../slices/modalDataSlice.js';
+import { showModal } from '../slices/modalDataSlice.js';
 import ChannelModal from './modal/ChannelModal.jsx';
 
 const ChannelItem = ({ changeChannel, channel, isCurrent }) => {
@@ -25,11 +25,11 @@ const ChannelItem = ({ changeChannel, channel, isCurrent }) => {
 
   const onShowDeleteChannelConfirmation = (e) => {
     e.preventDefault();
-    dispatch(showDeleteChannelConfirmation({ channel }));
+    dispatch(showModal({ type: 'deleteChannelConfirmation', channel }));
   };
   const onShowRenameChannel = (e) => {
     e.preventDefault();
-    dispatch(showRenameChanel({ channel }));
+    dispatch(showModal({ type: 'renameChannel', channel }));
   };
 
   return (
@@ -75,7 +75,7 @@ const Sidebar = () => {
   };
 
   const showAddChannelForm = () => {
-    dispatch(showAddChannel());
+    dispatch(showModal({ type: 'addChannel' }));
   };
 
   const { type } = useSelector(({ modalData }) => modalData);

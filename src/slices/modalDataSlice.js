@@ -11,6 +11,11 @@ const modalData = createSlice({
   name: 'modalData',
   initialState,
   reducers: {
+    showModal: (state, { payload: { type, channel } }) => {
+      state.state = 'show';
+      state.type = type;
+      state.data = { channel };
+    },
     showAddChannel: (state) => {
       state.state = 'show';
       state.type = 'addChannel';
@@ -30,6 +35,7 @@ const modalData = createSlice({
 });
 
 export const {
+  showModal,
   showAddChannel,
   showDeleteChannelConfirmation,
   showRenameChanel,
