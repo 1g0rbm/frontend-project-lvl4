@@ -5,7 +5,7 @@ import { Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import validators from '../validators';
+import * as yup from 'yup';
 import routes from '../routes.js';
 import FieldLabel from './FieldLabel.jsx';
 import useSetFocus from '../hooks/useSetFocus.js';
@@ -21,7 +21,20 @@ const SignUpForm = () => {
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: { username: '', password: '', passwordConfirmation: '' },
-    validationSchema: validators.signupForm,
+    validationSchema: yup.object({
+      username: yup.string()
+        .trim()
+        .min(3, 'error.lengthMinUsername')
+        .max(20, 'error.lengthMaxUsername')
+        .required('error.requred'),
+      password: yup.string()
+        .min(6, 'error.lengthMinPassword')
+        .required('error.requred'),
+      passwordConfirmation: yup.string()
+        .min(6, 'error.lengthMinPassword')
+        .required('error.requred')
+        .oneOf([yup.ref('password'), null], 'error.mustMatchPassword'),
+    }),
     onSubmit: async ({ username, password }, { setSubmitting }) => {
       setSubmitting(false);
       try {

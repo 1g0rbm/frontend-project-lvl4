@@ -5,7 +5,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import axios from 'axios';
-import validators from '../validators.js';
+import * as yup from 'yup';
 import routes from '../routes.js';
 import { authContext } from '../context/authContext.jsx';
 import FieldLabel from './FieldLabel.jsx';
@@ -24,7 +24,13 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: { username: '', password: '' },
-    validationSchema: validators.loginForm,
+    validationSchema: yup.object({
+      username: yup.string()
+        .trim()
+        .required('error.requred'),
+      password: yup.string()
+        .required('error.requred'),
+    }),
     onSubmit: async ({ username, password }, { setSubmitting }) => {
       setSubmitting(false);
       try {
